@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="OnSaveClick">OnSaveClick</string>
+    <string name="save">Save</string>
+    <string name="i_loaned_from">I loaned the mony from</string>
+    <string name="i_loaned_to">I loaned the mony</string>
+    <string name="debug">Debug</string>
+    <string name="amount">amount</string>
     <string name="debugHandler">debugHandler</string>
     <string name="hello">Hello World, overview!</string>
     <string name="app_name">Loaner</string>
 <string name="select_person">Select Person</string>
 <string name="buttonHandler">myClickHandler</string>
+
+<string name="create_table_transactions">
+CREATE TABLE transactions (
+	id INTEGER PRIMARY KEY,
+	person_id INTEGER,
+	amount REAL NOT NULL
+)
+</string>
+<string name="insert_table_transactions">
+INSERT INTO transactions (person_id, amount)
+VALUES (?, ?)
+</string>
+
+<string name="select_all_table_transactions">
+SELECT * FROM transactions
+</string>
+
 </resources>

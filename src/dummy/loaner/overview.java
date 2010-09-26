@@ -1,20 +1,19 @@
 package dummy.loaner;
 
 import android.app.Activity;
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts.People;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.util.Log;
 
 public class overview extends Activity {
+	private static final String TAG = "overview";
 	private static final int PICK_CONTACT = 1;
 	private TextView lblContactUri;
 	
@@ -22,8 +21,41 @@ public class overview extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "Startup");
+
         setContentView(R.layout.main);
         lblContactUri = (TextView)findViewById(R.id.TextView01);
+
+		DatabaseHelper openHelper = new DatabaseHelper(this);
+		SQLiteDatabase db = openHelper.getWritableDatabase();
+
+		String sql = this.getResources().getString(R.string.select_all_table_transactions);
+//		db.execSQL(sql);
+		
+		//Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
+		//selection = new String[] { "name" }
+		Cursor cursor = db.query("transactions", null, null, null, null, null, "id desc");
+		if (cursor.moveToFirst()) {
+			do {
+//				list.add(cursor.getString(0));
+				Log.d(TAG, "--------");
+				Log.d(TAG, Integer.toString(cursor.getInt(0)));
+				Log.d(TAG, Integer.toString(cursor.getInt(1)));
+				Log.d(TAG, Integer.toString(cursor.getInt(2)));
+
+				long person_id = cursor.getInt(1); 
+				Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, person_id);
+				Cursor c = managedQuery(contactData, null, null, null, null);
+				if (c != null && c.moveToFirst()) {
+					String name = c.getString(c.getColumnIndexOrThrow(People.NAME));
+					Log.d(TAG, name);
+				}
+
+			} while (cursor.moveToNext());
+		}
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		}        
     }
 
 	public void myClickHandler(View view) {
@@ -33,6 +65,12 @@ public class overview extends Activity {
 	}
 	
 	public void debugHandler(View view) {
+//		lblContactUri.setText("c isnull");
+		Intent myIntent = new Intent(view.getContext(), AddTransaction.class);
+		startActivity(myIntent);
+	}
+
+	public void debugHandler2(View view) {
 //		String uri_str = "content://contacts/people/1";
 //		String id = (String)lblContactUri.getText();
 		long id = 1;
@@ -64,11 +102,9 @@ public class overview extends Activity {
 			case (PICK_CONTACT):
 				if (resultCode == Activity.RESULT_OK) {
 					Uri contactData = data.getData();
-					//contactData.
-					long id =ContentUris.parseId(contactData);
+					long id = ContentUris.parseId(contactData);
 					lblContactUri.setText(Long.toString(id));
 //					lblContactUri.setText(contactData.toString());
-//					lblContactUri.setText(contactData.get);
 				}
 				break;
 		}
