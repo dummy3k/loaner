@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="debugHandler">debugHandler</string>
     <string name="hello">Hello World, overview!</string>
     <string name="app_name">Loaner</string>
 <string name="select_person">Select Person</string>
