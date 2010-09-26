@@ -1,6 +1,10 @@
 package dummy.loaner;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts.People;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
 
@@ -16,7 +22,11 @@ public class overview extends Activity {
 	private static final String TAG = "overview";
 	private static final int PICK_CONTACT = 1;
 	private TextView lblContactUri;
+	private ListView lv1;
 	
+	public class ListViewItem extends ListActivity {
+		
+	}
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,6 +35,7 @@ public class overview extends Activity {
 
         setContentView(R.layout.main);
         lblContactUri = (TextView)findViewById(R.id.TextView01);
+        lv1 = (ListView)findViewById(R.id.ListView01);
 
 		DatabaseHelper openHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = openHelper.getWritableDatabase();
@@ -34,10 +45,10 @@ public class overview extends Activity {
 		
 		//Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
 		//selection = new String[] { "name" }
+		List<String> items = new LinkedList<String>();
 		Cursor cursor = db.query("transactions", null, null, null, null, null, "id desc");
 		if (cursor.moveToFirst()) {
 			do {
-//				list.add(cursor.getString(0));
 				Log.d(TAG, "--------");
 				Log.d(TAG, Integer.toString(cursor.getInt(0)));
 				Log.d(TAG, Integer.toString(cursor.getInt(1)));
@@ -49,6 +60,7 @@ public class overview extends Activity {
 				if (c != null && c.moveToFirst()) {
 					String name = c.getString(c.getColumnIndexOrThrow(People.NAME));
 					Log.d(TAG, name);
+					items.add(name);
 				}
 
 			} while (cursor.moveToNext());
@@ -56,6 +68,13 @@ public class overview extends Activity {
 		if (cursor != null && !cursor.isClosed()) {
 			cursor.close();
 		}        
+		
+//		String myArray[] = (String[])items.toArray();
+		lv1.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, 
+				items));
+		
+		
     }
 
 	public void myClickHandler(View view) {
