@@ -1,6 +1,7 @@
 package dummy.loaner;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,11 +11,13 @@ import android.os.Bundle;
 import android.provider.Contacts.People;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class AddTransaction extends Activity {
 	private static final String TAG = "AddTransaction";
 	private int mPersonId;
+	private EditText txtAmount;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,8 +28,9 @@ public class AddTransaction extends Activity {
         Bundle bundle = getIntent().getExtras();
         mPersonId = bundle.getInt("id");
         Log.i(TAG, "id: " + mPersonId);
-        TextView lblPerson = (TextView)findViewById(R.id.TextView02);
+        txtAmount = (EditText)findViewById(R.id.EditText01);
 
+        TextView lblPerson = (TextView)findViewById(R.id.TextView02);
         Person person = new Person(this, mPersonId);
 		lblPerson.setText(person.getName());
 	}
@@ -38,12 +42,21 @@ public class AddTransaction extends Activity {
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
 		String sql = this.getResources().getString(R.string.insert_table_transactions);
-		db.execSQL(sql, new Object[]{mPersonId, 2});
+		float amount = 0;
+		try {
+			amount = Float.parseFloat(txtAmount.getText().toString());
+		} catch (NumberFormatException ex) {
+	       	 AlertDialog.Builder adb=new AlertDialog.Builder(this);
+	       	 adb.setTitle("Loaner");
+	       	 adb.setMessage("Invalid amount");
+	       	 adb.setPositiveButton("Ok", null);
+	       	 adb.show();
+	       	 return;
+		}
+		
+		db.execSQL(sql, new Object[]{mPersonId, amount});
 		
 		db.close();
-
-//		Intent myIntent = new Intent(view.getContext(), overview.class);
-//		startActivity(myIntent);
 		finish();
 	}
 }

@@ -69,9 +69,10 @@ public class ViewPerson extends Activity {
 				Log.d(TAG, Integer.toString(cursor.getInt(0)));
 				Log.d(TAG, Integer.toString(cursor.getInt(1)));
 				Log.d(TAG, Integer.toString(cursor.getInt(2)));
+				Log.d(TAG, Float.toString(cursor.getFloat((2))));
 
-				int amount = cursor.getInt(2);
-				items.add(Integer.toString(amount));
+				float amount = cursor.getFloat(2);
+				items.add(Float.toString(amount));
 //				int person_id = cursor.getInt(0);
 //				Log.d(TAG, "person_id: " + person_id);
 //				Person p = new Person(this, person_id);
