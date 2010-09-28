@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -12,21 +13,21 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts.People;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
+import android.view.MenuInflater;
 
 public class overview extends Activity {
 	private static final String TAG = "overview";
 	private static final int PICK_CONTACT = 1;
 	private TextView lblContactUri;
 	private ListView lv1;
-	
-	public class ListViewItem extends ListActivity {
-		
-	}
 	
     /** Called when the activity is first created. */
     @Override
@@ -37,17 +38,34 @@ public class overview extends Activity {
         setContentView(R.layout.main);
         lblContactUri = (TextView)findViewById(R.id.TextView01);
         lv1 = (ListView)findViewById(R.id.ListView01);
+        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        	 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+        	 AlertDialog.Builder adb=new AlertDialog.Builder(overview.this);
+        	 adb.setTitle("LVSelectedItemExample");
+        	 adb.setMessage("Selected Item is = "+lv1.getItemAtPosition(position));
+        	 adb.setPositiveButton("Ok", null);
+        	 adb.show();
+        	 }
+        	 });
 
+		
+        RefreshList();
+    }
+
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	Log.d(TAG, "onResume()");
+        RefreshList();
+    }
+
+    private void RefreshList() {
 		DatabaseHelper openHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
-		String sql = this.getResources().getString(R.string.select_all_table_transactions);
-//		db.execSQL(sql);
-		
-		//Cursor c = qb.query(db, projection, selection, selectionArgs, null, null, orderBy);
-		//selection = new String[] { "name" }
 		List<String> items = new LinkedList<String>();
-		Cursor cursor = db.query("transactions", null, null, null, null, null, "id desc");
+		Cursor cursor = db.query("transactions", null, null, null, null, null, 
+								 "id desc");
 		if (cursor.moveToFirst()) {
 			do {
 				Log.d(TAG, "--------");
@@ -55,33 +73,51 @@ public class overview extends Activity {
 				Log.d(TAG, Integer.toString(cursor.getInt(1)));
 				Log.d(TAG, Integer.toString(cursor.getInt(2)));
 
-				long person_id = cursor.getInt(1); 
-				Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, person_id);
-				Cursor c = managedQuery(contactData, null, null, null, null);
-				if (c != null && c.moveToFirst()) {
-					String name = c.getString(c.getColumnIndexOrThrow(People.NAME));
-					Log.d(TAG, name);
-					items.add(name);
-				}
+				int person_id = cursor.getInt(1);
+				Log.d(TAG, "person_id: " + person_id);
+				Person p = new Person(this, person_id);
+				items.add(p.getName());
 
 			} while (cursor.moveToNext());
 		}
 		if (cursor != null && !cursor.isClosed()) {
 			cursor.close();
 		}        
-		
-//		String myArray[] = (String[])items.toArray();
+
 		lv1.setAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, 
 				items));
-		
-		
+
+		db.close();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.overview, menu);
+    	return true;
     }
 
-	public void myClickHandler(View view) {
-//		Intent.ACTION_GET_CONTENT
+	// This method is called once the menu is selected
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		// We have only one menu option
+		case R.id.addnew:
+			addTransaction();
+			break;
+		}
+		return true;
+	}
+
+	private void addTransaction() {
+		// Launch new activity
 		Intent intent = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
 		startActivityForResult(intent, PICK_CONTACT);  
+	}
+	
+	public void cmdAddTransaction(View view) {
+		addTransaction();
 	}
 	
 	public void debugHandler(View view) {

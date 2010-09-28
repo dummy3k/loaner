@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="addnew">Add New</string>
     <string name="OnSaveClick">OnSaveClick</string>
     <string name="save">Save</string>
     <string name="i_loaned_from">I loaned the mony from</string>

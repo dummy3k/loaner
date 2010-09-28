@@ -27,36 +27,10 @@ public class AddTransaction extends Activity {
         Log.i(TAG, "id: " + mPersonId);
         TextView lblPerson = (TextView)findViewById(R.id.TextView02);
 
-        Cursor person = getPerson(mPersonId);
-		if (person != null) {
-			String name = person.getString(person.getColumnIndexOrThrow(People.NAME));
-			lblPerson.setText(name);
-		}
-        
+        Person person = new Person(this, mPersonId);
+		lblPerson.setText(person.getName());
 	}
 
-	private Cursor getPerson(int id) {
-		Uri.Builder builder = new Uri.Builder();
-		builder.scheme("content");
-		builder.appendEncodedPath("/contacts/people/1");
-		Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, id);
-//		content://contacts/people/1
-//		lblContactUri.setText(contactData.toString());
-
-		Cursor c = managedQuery(contactData, null, null, null, null);
-		if (c == null) {
-			Log.e(TAG, "c is null");
-			return null;
-		}
-		
-		if (!c.moveToFirst()) {
-			Log.e(TAG, "person not found");
-			return null;
-		}
-		return c;
-
-
-	}
 	public void OnSaveClick(View view) {
         Log.i(TAG, "OnSaveClick()");
 
