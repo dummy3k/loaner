@@ -12,7 +12,13 @@
             </intent-filter>
         </activity>
 
-    <activity android:name="AddTransaction"></activity>
+    <activity android:name="AddTransaction">
+<!--      <intent-filter>-->
+<!--          <action android:name="android.intent.action.INSERT" />-->
+<!--          <category android:name="android.intent.category.DEFAULT" />-->
+<!--          <data android:mimeType="vnd.android.cursor.dir/vnd.google.note" />-->
+<!--      </intent-filter>-->
+    </activity>
 </application>
     <uses-sdk android:minSdkVersion="8" />
 

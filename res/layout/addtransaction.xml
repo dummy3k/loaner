@@ -9,7 +9,7 @@
 
 
 
-<RadioButton android:id="@+id/RadioButton01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i_loaned_to"></RadioButton><RadioButton android:id="@+id/RadioButton02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i_loaned_from"></RadioButton><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/amount"></TextView>
+<TextView android:text="@+id/TextView02" android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView><RadioButton android:id="@+id/RadioButton01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i_loaned_to"></RadioButton><RadioButton android:id="@+id/RadioButton02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i_loaned_from"></RadioButton><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/amount"></TextView>
 <EditText android:id="@+id/EditText01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:inputType="number|numberDecimal"></EditText>
 
 
@@ -20,6 +20,7 @@
 
 <Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/save" android:onClick="@string/OnSaveClick"></Button><View android:id="@+id/View01" android:layout_width="wrap_content" android:layout_height="wrap_content"></View>
 <TableRow android:id="@+id/TableRow02" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
+
 
 
 

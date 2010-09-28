@@ -17,6 +17,9 @@ public class AddTransaction extends Activity {
         setContentView(R.layout.addtransaction);
 //        lblContactUri = (TextView)findViewById(R.id.TextView01);
         Log.i(TAG, "Startup");
+        
+        Bundle bundle = getIntent().getExtras();
+        Log.i(TAG, "id: " + bundle.getInt("id"));
     }
 
 	public void OnSaveClick(View view) {

@@ -27,6 +27,7 @@ public class overview extends Activity {
 	public class ListViewItem extends ListActivity {
 		
 	}
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,6 @@ public class overview extends Activity {
 	}
 	
 	public void debugHandler(View view) {
-//		lblContactUri.setText("c isnull");
 		Intent myIntent = new Intent(view.getContext(), AddTransaction.class);
 		startActivity(myIntent);
 	}
@@ -99,7 +99,7 @@ public class overview extends Activity {
 		Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, id);
 //		content://contacts/people/1
 		lblContactUri.setText(contactData.toString());
-		
+
 		Cursor c = managedQuery(contactData, null, null, null, null);
 		if (c == null) {
 			lblContactUri.setText("c isnull");
@@ -121,9 +121,18 @@ public class overview extends Activity {
 			case (PICK_CONTACT):
 				if (resultCode == Activity.RESULT_OK) {
 					Uri contactData = data.getData();
-					long id = ContentUris.parseId(contactData);
-					lblContactUri.setText(Long.toString(id));
-//					lblContactUri.setText(contactData.toString());
+					int id = (int)ContentUris.parseId(contactData);
+					Log.d(TAG, "id: " + id);
+
+					Intent myIntent = new Intent(this, AddTransaction.class);
+					Bundle bundle = new Bundle();
+					bundle.putInt("id", id);
+//					bundle.putInt("id", 4711);
+//					bundle.putInt("id", (int)id);
+//					myIntent.putExtras(bundle);
+					myIntent.putExtra("id", id);
+					startActivity(myIntent);
+					
 				}
 				break;
 		}
