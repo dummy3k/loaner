@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="show">Show</string>
+    <string name="delete_all">Delete All</string>
     <string name="addnew">Add New</string>
     <string name="OnSaveClick">OnSaveClick</string>
     <string name="save">Save</string>

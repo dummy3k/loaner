@@ -13,6 +13,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts.People;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,8 +70,18 @@ public class overview extends Activity {
 				overview.this.startActivity(myIntent);
 			 }});
 
+        registerForContextMenu(lv1);
+        
+
     }
 
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
+    	Log.d(TAG, "onCreateContextMenu(");
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.person, menu);
+    }
+    
+    
     @Override
     public void onResume() {
     	super.onResume();
