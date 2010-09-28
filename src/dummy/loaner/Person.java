@@ -38,6 +38,10 @@ public class Person {
 		mCursor = c;
 	}
 	
+	public int getId() {
+		return mPersonId;
+	}
+	
 	public String getName() {
 		return mCursor.getString(mCursor.getColumnIndexOrThrow(People.NAME));
 	}

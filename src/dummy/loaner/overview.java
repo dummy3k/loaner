@@ -23,12 +23,26 @@ import android.widget.TextView;
 import android.util.Log;
 import android.view.MenuInflater;
 
+
 public class overview extends Activity {
 	private static final String TAG = "overview";
 	private static final int PICK_CONTACT = 1;
 	private TextView lblContactUri;
 	private ListView lv1;
-	
+
+	public class OverViewListItem {
+		private Person Person;
+		
+		public OverViewListItem(Person p) {
+			this.Person = p;
+		}
+		
+		@Override
+		public String toString() {
+			return this.Person.getName();
+		}
+	}
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,16 +53,21 @@ public class overview extends Activity {
         lblContactUri = (TextView)findViewById(R.id.TextView01);
         lv1 = (ListView)findViewById(R.id.ListView01);
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        	 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-        	 AlertDialog.Builder adb=new AlertDialog.Builder(overview.this);
-        	 adb.setTitle("LVSelectedItemExample");
-        	 adb.setMessage("Selected Item is = "+lv1.getItemAtPosition(position));
-        	 adb.setPositiveButton("Ok", null);
-        	 adb.show();
-        	 }
-        	 });
+			 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+//			        	 AlertDialog.Builder adb=new AlertDialog.Builder(overview.this);
+//			        	 adb.setTitle("LVSelectedItemExample");
+//			        	 adb.setMessage("Selected Item is = "+lv1.getItemAtPosition(position));
+//			        	 adb.setPositiveButton("Ok", null);
+//			        	 adb.show();
+				 
+				 
+				Intent myIntent = new Intent(overview.this, ViewPerson.class);
+				OverViewListItem lvit = (OverViewListItem)lv1.getItemAtPosition(position);
+				Log.d(TAG, "PersonId: " + lvit.Person.getId());
+				myIntent.putExtra("id", lvit.Person.getId());
+				overview.this.startActivity(myIntent);
+			 }});
 
-		
         RefreshList();
     }
 
@@ -63,7 +82,7 @@ public class overview extends Activity {
 		DatabaseHelper openHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
-		List<String> items = new LinkedList<String>();
+		List<OverViewListItem> items = new LinkedList<OverViewListItem>();
 		Cursor cursor = db.query("transactions", null, null, null, null, null, 
 								 "id desc");
 		if (cursor.moveToFirst()) {
@@ -76,7 +95,8 @@ public class overview extends Activity {
 				int person_id = cursor.getInt(1);
 				Log.d(TAG, "person_id: " + person_id);
 				Person p = new Person(this, person_id);
-				items.add(p.getName());
+//				items.add(p.getName());
+				items.add(new OverViewListItem(p));
 
 			} while (cursor.moveToNext());
 		}
@@ -84,7 +104,7 @@ public class overview extends Activity {
 			cursor.close();
 		}        
 
-		lv1.setAdapter(new ArrayAdapter<String>(this,
+		lv1.setAdapter(new ArrayAdapter<OverViewListItem>(this,
 				android.R.layout.simple_list_item_1, 
 				items));
 
@@ -161,8 +181,8 @@ public class overview extends Activity {
 					Log.d(TAG, "id: " + id);
 
 					Intent myIntent = new Intent(this, AddTransaction.class);
-					Bundle bundle = new Bundle();
-					bundle.putInt("id", id);
+//					Bundle bundle = new Bundle();
+//					bundle.putInt("id", id);
 //					bundle.putInt("id", 4711);
 //					bundle.putInt("id", (int)id);
 //					myIntent.putExtras(bundle);
