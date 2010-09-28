@@ -68,34 +68,30 @@ public class overview extends Activity {
 				overview.this.startActivity(myIntent);
 			 }});
 
-        RefreshList();
     }
 
     @Override
     public void onResume() {
     	super.onResume();
     	Log.d(TAG, "onResume()");
-        RefreshList();
-    }
-
-    private void RefreshList() {
 		DatabaseHelper openHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
 		List<OverViewListItem> items = new LinkedList<OverViewListItem>();
-		Cursor cursor = db.query("transactions", null, null, null, null, null, 
-								 "id desc");
-		if (cursor.moveToFirst()) {
+//		Cursor cursor = db.query("transactions", null, null, null, null, null, 
+//								 "id desc");
+		Cursor cursor = db.query(true, "transactions", new String[] {"person_id"}, 
+				 null, null, null, null, null, null);
+		if (cursor != null && cursor.moveToFirst()) {
 			do {
 				Log.d(TAG, "--------");
 				Log.d(TAG, Integer.toString(cursor.getInt(0)));
-				Log.d(TAG, Integer.toString(cursor.getInt(1)));
-				Log.d(TAG, Integer.toString(cursor.getInt(2)));
+//				Log.d(TAG, Integer.toString(cursor.getInt(1)));
+//				Log.d(TAG, Integer.toString(cursor.getInt(2)));
 
-				int person_id = cursor.getInt(1);
+				int person_id = cursor.getInt(0);
 				Log.d(TAG, "person_id: " + person_id);
 				Person p = new Person(this, person_id);
-//				items.add(p.getName());
 				items.add(new OverViewListItem(p));
 
 			} while (cursor.moveToNext());
@@ -110,7 +106,7 @@ public class overview extends Activity {
 
 		db.close();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	MenuInflater inflater = getMenuInflater();
@@ -146,14 +142,12 @@ public class overview extends Activity {
 	}
 
 	public void debugHandler2(View view) {
-//		String uri_str = "content://contacts/people/1";
-//		String id = (String)lblContactUri.getText();
+		//	content://contacts/people/1
 		long id = 1;
 		Uri.Builder builder = new Uri.Builder();
 		builder.scheme("content");
 		builder.appendEncodedPath("/contacts/people/1");
 		Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, id);
-//		content://contacts/people/1
 		lblContactUri.setText(contactData.toString());
 
 		Cursor c = managedQuery(contactData, null, null, null, null);
@@ -181,14 +175,8 @@ public class overview extends Activity {
 					Log.d(TAG, "id: " + id);
 
 					Intent myIntent = new Intent(this, AddTransaction.class);
-//					Bundle bundle = new Bundle();
-//					bundle.putInt("id", id);
-//					bundle.putInt("id", 4711);
-//					bundle.putInt("id", (int)id);
-//					myIntent.putExtras(bundle);
 					myIntent.putExtra("id", id);
 					startActivity(myIntent);
-					
 				}
 				break;
 		}
