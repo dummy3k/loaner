@@ -17,7 +17,7 @@
 		/>
 	
 
-	<LinearLayout
+	<RelativeLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
@@ -25,8 +25,12 @@
 		>
 
 		<TextView android:text="@+id/TextView01" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-		<TextView android:text="@+id/TextView02" android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-	</LinearLayout>
+		<TextView android:text="@+id/TextView02" android:id="@+id/TextView02" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+           	android:layout_alignParentRight="true"
+			/>
+	</RelativeLayout>
 	
 
 </LinearLayout>
