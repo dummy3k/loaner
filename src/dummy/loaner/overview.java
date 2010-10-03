@@ -73,7 +73,13 @@ public class overview extends Activity {
 			label.setText(p.getName());
 
 			label=(TextView)row.findViewById(R.id.TextView02);
-			label.setText(String.format("%12.2f", p.getSaldo()));
+			float saldo = p.getSaldo();
+			label.setText(String.format("%12.2f", saldo));
+			if (saldo < 0) {
+				label.setTextColor(getResources().getColor(R.color.red));
+			} else {
+				label.setTextColor(getResources().getColor(R.color.green));
+			}
 
 			ImageView icon=(ImageView)row.findViewById(R.id.ImageView01);
 			icon.setImageBitmap(p.getImage());
