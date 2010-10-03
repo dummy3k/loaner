@@ -8,7 +8,7 @@
     <string name="i_loaned_from">I loaned the mony from</string>
     <string name="i_loaned_to">I loaned the mony</string>
     <string name="debug">Debug</string>
-    <string name="amount">amount</string>
+    <string name="amount">Amount</string>
     <string name="debugHandler">debugHandler</string>
     <string name="hello">Hello World, overview!</string>
     <string name="app_name">Loaner</string>
