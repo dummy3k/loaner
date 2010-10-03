@@ -51,7 +51,6 @@ public class overview extends Activity {
 	public class OverviewAdapter extends ArrayAdapter<OverviewListItem> {
 		private Context mContext;
 		private List<OverviewListItem> mItems;
-		private OverviewListItem[] mItemsArray;
 		
 		public OverviewAdapter(Context context, int resource,
 				int textViewResourceId, List<OverviewListItem> objects) {
@@ -59,7 +58,6 @@ public class overview extends Activity {
 			super(context, resource, textViewResourceId, objects);
 			mContext = context;
 			mItems = objects;
-//			mItemsArray = object.(type[]) collection.toArray(new type[collection.size()])
 		}
 
 		public View getView(int position, View ConvertView, ViewGroup parent) {
@@ -75,7 +73,7 @@ public class overview extends Activity {
 			label.setText(p.getName());
 
 			label=(TextView)row.findViewById(R.id.TextView02);
-			label.setText("Pos: " + position);
+			label.setText(Float.toString(p.getSaldo()));
 
 			ImageView icon=(ImageView)row.findViewById(R.id.ImageView01);
 			icon.setImageBitmap(p.getImage());

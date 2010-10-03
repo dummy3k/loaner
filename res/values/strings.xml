@@ -27,4 +27,10 @@ INSERT INTO transactions (person_id, amount)
 VALUES (?, ?)
 </string>
 
+<string name="select_person_saldo">
+SELECT SUM(amount)
+FROM transactions
+WHERE person_id = ?
+</string>
+
 </resources>

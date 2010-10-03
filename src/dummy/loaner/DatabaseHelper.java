@@ -10,7 +10,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String TAG = "DatabaseHelper";
     private static final String DATABASE_NAME = "loaner.db";
     private static final int DATABASE_VERSION = 3;
-    private static final String NOTES_TABLE_NAME = "notes";
     private Context mContext;
     
     DatabaseHelper(Context context) {
