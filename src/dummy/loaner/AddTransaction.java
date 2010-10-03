@@ -7,13 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class AddTransaction extends Activity {
 	private static final String TAG = "AddTransaction";
 	private int mPersonId;
 	private EditText txtAmount;
-	
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,19 @@ public class AddTransaction extends Activity {
 	public void OnSaveClick(View view) {
         Log.i(TAG, "OnSaveClick()");
 
-		DatabaseHelper openHelper = new DatabaseHelper(this);
+    	RadioButton optLoanedTo = (RadioButton)findViewById(R.id.RadioButton01);
+    	RadioButton optLoanedFrom = (RadioButton)findViewById(R.id.RadioButton02);
+    	if (!optLoanedTo.isChecked() && !optLoanedFrom.isChecked()) {
+			AlertDialog.Builder adb = new AlertDialog.Builder(this);
+			adb.setTitle(R.string.inputerror);
+			adb.setMessage(R.string.select_option_error);
+			adb.setPositiveButton("Ok", null);
+			adb.show();
+			Log.d(TAG, "After show");
+			return;
+    	}
+
+        DatabaseHelper openHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
 		String sql = this.getResources().getString(R.string.insert_table_transactions);
@@ -41,14 +54,17 @@ public class AddTransaction extends Activity {
 		try {
 			amount = Float.parseFloat(txtAmount.getText().toString());
 		} catch (NumberFormatException ex) {
-	       	 AlertDialog.Builder adb=new AlertDialog.Builder(this);
-	       	 adb.setTitle("Loaner");
-	       	 adb.setMessage("Invalid amount");
-	       	 adb.setPositiveButton("Ok", null);
-	       	 adb.show();
-	       	 return;
+			AlertDialog.Builder adb=new AlertDialog.Builder(this);
+			adb.setTitle(R.string.inputerror);
+			adb.setMessage(R.string.invalidamount);
+			adb.setPositiveButton("Ok", null);
+			adb.show();
+			return;
 		}
 		
+		if (optLoanedTo.isChecked()) {
+			amount *= -1;
+		}
 		db.execSQL(sql, new Object[]{mPersonId, amount});
 		
 		db.close();

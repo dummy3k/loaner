@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="show">Show</string>
-    <string name="delete_all">Delete All</string>
-    <string name="addnew">Add New</string>
-    <string name="OnSaveClick">OnSaveClick</string>
-    <string name="save">Save</string>
-    <string name="i_loaned_from">I loaned the mony from</string>
-    <string name="i_loaned_to">I loaned the mony</string>
-    <string name="debug">Debug</string>
-    <string name="amount">Amount</string>
-    <string name="debugHandler">debugHandler</string>
-    <string name="hello">Hello World, overview!</string>
-    <string name="app_name">Loaner</string>
+<string name="show">Show</string>
+<string name="delete_all">Delete All</string>
+<string name="addnew">Add New</string>
+<string name="OnSaveClick">OnSaveClick</string>
+<string name="save">Save</string>
+<string name="i_loaned_from">I loaned the money from</string>
+<string name="i_loaned_to">I loaned the money to</string>
+<string name="debug">Debug</string>
+<string name="amount">Amount</string>
+<string name="debugHandler">debugHandler</string>
+<string name="hello">Hello World, overview!</string>
+<string name="app_name">Loaner</string>
 <string name="select_person">Select Person</string>
 <string name="buttonHandler">myClickHandler</string>
+<string name="inputerror">Input Error</string>
+<string name="invalidamount">Invalid amount.</string>
+<string name="select_option_error">Please select whether you loaned or received the money.</string>
 
 <string name="create_table_transactions">
 CREATE TABLE transactions (
