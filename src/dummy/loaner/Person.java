@@ -18,9 +18,9 @@ public class Person {
 	}
 	
 	private void getCursor(Activity activity) {
-		Uri.Builder builder = new Uri.Builder();
-		builder.scheme("content");
-		builder.appendEncodedPath("/contacts/people/1");
+//		Uri.Builder builder = new Uri.Builder();
+//		builder.scheme("content");
+//		builder.appendEncodedPath("/contacts/people/1");
 		Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, mPersonId);
 //		content://contacts/people/1
 //		lblContactUri.setText(contactData.toString());

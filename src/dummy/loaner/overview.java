@@ -31,6 +31,7 @@ public class overview extends Activity {
 	private static final int PICK_CONTACT = 1;
 	private TextView lblContactUri;
 	private ListView lv1;
+	private OverViewListItem mCurrentItem;
 
 	public class OverViewListItem {
 		private Person Person;
@@ -71,12 +72,23 @@ public class overview extends Activity {
 			 }});
 
         registerForContextMenu(lv1);
-        
+        lv1.setOnCreateContextMenuListener(this);
 
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
-    	Log.d(TAG, "onCreateContextMenu(");
+		if (lv1.getSelectedItem() == null){
+			Log.w(TAG, "lv1.getSelectedItem() is null, onCreateOptionsMenu");
+			return;
+		}
+		mCurrentItem = (OverViewListItem)lv1.getSelectedItem();
+		if (mCurrentItem == null){
+			Log.w(TAG, "lvit is null, onCreateOptionsMenu");
+			return;
+		}
+		Log.d(TAG, "PersonId: " + mCurrentItem.Person.getId());
+
+		Log.d(TAG, "onCreateContextMenu(");
     	MenuInflater inflater = getMenuInflater();
     	inflater.inflate(R.menu.person, menu);
     }
@@ -121,7 +133,7 @@ public class overview extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getMenuInflater();
     	inflater.inflate(R.menu.overview, menu);
     	return true;
     }
@@ -129,15 +141,42 @@ public class overview extends Activity {
 	// This method is called once the menu is selected
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+    	Log.d(TAG, "onOptionsItemSelected()");
 		switch (item.getItemId()) {
 		// We have only one menu option
 		case R.id.addnew:
 			addTransaction();
 			break;
+			
+		default:
+			Log.d(TAG, "unknown menu");
+			return super.onOptionsItemSelected(item);
 		}
 		return true;
 	}
 
+	public boolean onContextItemSelected (MenuItem item) {
+		super.onContextItemSelected(item);
+		Log.d(TAG, "onContextItemSelected()");
+		switch (item.getItemId()) {
+		// We have only one menu option
+		case R.id.mnuShow:
+			Log.d(TAG, "mnuShow");
+			int id = mCurrentItem.Person.getId();
+			Log.d(TAG, "PersonId: " + id);
+
+			Intent myIntent = new Intent(this, AddTransaction.class);
+			myIntent.putExtra("id", id);
+			startActivity(myIntent);
+			break;
+			
+		default:
+			Log.d(TAG, "unknown menu");
+//			return 
+		}
+		return true;
+	}
+	
 	private void addTransaction() {
 		// Launch new activity
 		Intent intent = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
