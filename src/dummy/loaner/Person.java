@@ -91,19 +91,25 @@ public class Person {
 	}
 	
 	public void configureView(Context context, View row) {
-		TextView label=(TextView)row.findViewById(R.id.TextView01);
-		label.setText(this.getName());
-
-		label=(TextView)row.findViewById(R.id.TextView02);
-		float saldo = this.getSaldo();
-		label.setText(String.format("%12.2f", saldo));
-		if (saldo < 0) {
-			label.setTextColor(context.getResources().getColor(R.color.red));
-		} else {
-			label.setTextColor(context.getResources().getColor(R.color.green));
+		TextView label=(TextView)row.findViewById(R.id.txtPersonName);
+		if (label != null) {
+			label.setText(this.getName());
 		}
 
-		ImageView icon=(ImageView)row.findViewById(R.id.ImageView01);
-		icon.setImageBitmap(this.getImage());
+		label=(TextView)row.findViewById(R.id.txtPersonSaldo);
+		if (label != null) {
+			float saldo = this.getSaldo();
+			label.setText(String.format("%12.2f", saldo));
+			if (saldo < 0) {
+				label.setTextColor(context.getResources().getColor(R.color.red));
+			} else {
+				label.setTextColor(context.getResources().getColor(R.color.green));
+			}
+		}
+
+		ImageView icon = (ImageView)row.findViewById(R.id.imgPerson);
+		if (icon != null ) {
+			icon.setImageBitmap(this.getImage());
+		}
 	}
 }
