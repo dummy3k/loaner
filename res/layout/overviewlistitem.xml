@@ -4,14 +4,16 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:orientation="horizontal"
+	android:padding="5px"
 	>
 
 	<ImageView android:id="@+id/ImageView01"
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical"
-		android:layout_width="96px"
-		android:layout_height="96px"
+		android:layout_width="72px"
+		android:layout_height="72px"
 		android:src="@drawable/dummy"
+		android:padding="5px"
 		/>
 	
 

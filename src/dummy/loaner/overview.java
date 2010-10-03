@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,11 +16,14 @@ import android.os.Bundle;
 import android.provider.Contacts.People;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
@@ -31,18 +35,54 @@ public class overview extends Activity {
 	private static final int PICK_CONTACT = 1;
 	private TextView lblContactUri;
 	private ListView lv1;
-	private OverViewListItem mCurrentItem;
+	private OverviewListItem mCurrentItem;
 
-	public class OverViewListItem {
+	public class OverviewListItem {
 		private Person Person;
 		
-		public OverViewListItem(Person p) {
+		public OverviewListItem(Person p) {
 			this.Person = p;
 		}
 		
 		@Override
 		public String toString() {
 			return this.Person.getName();
+		}
+	}
+	
+	public class OverviewAdapter extends ArrayAdapter<OverviewListItem> {
+		private Context mContext;
+		private List<OverviewListItem> mItems;
+		private OverviewListItem[] mItemsArray;
+		
+		public OverviewAdapter(Context context, int resource,
+				int textViewResourceId, List<OverviewListItem> objects) {
+			
+			super(context, resource, textViewResourceId, objects);
+			mContext = context;
+			mItems = objects;
+//			mItemsArray = object.(type[]) collection.toArray(new type[collection.size()])
+		}
+
+		public View getView(int position, View ConvertView, ViewGroup parent) {
+			Log.d(TAG, "getView(" + position + ")");
+			LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			if (inflater == null) {
+				Log.e(TAG, "inflater is null!");
+			}
+			View row=inflater.inflate(R.layout.overviewlistitem, null);
+			Person p = mItems.get(position).Person;
+			
+			TextView label=(TextView)row.findViewById(R.id.TextView01);
+			label.setText(p.getName());
+
+			label=(TextView)row.findViewById(R.id.TextView02);
+			label.setText("Pos: " + position);
+
+			ImageView icon=(ImageView)row.findViewById(R.id.ImageView01);
+			icon.setImageBitmap(p.getImage());
+
+			return row;
 		}
 	}
 
@@ -65,7 +105,7 @@ public class overview extends Activity {
 				 
 				 
 				Intent myIntent = new Intent(overview.this, ViewPerson.class);
-				OverViewListItem lvit = (OverViewListItem)lv1.getItemAtPosition(position);
+				OverviewListItem lvit = (OverviewListItem)lv1.getItemAtPosition(position);
 				Log.d(TAG, "PersonId: " + lvit.Person.getId());
 				myIntent.putExtra("id", lvit.Person.getId());
 				overview.this.startActivity(myIntent);
@@ -81,7 +121,7 @@ public class overview extends Activity {
 			Log.w(TAG, "lv1.getSelectedItem() is null, onCreateOptionsMenu");
 			return;
 		}
-		mCurrentItem = (OverViewListItem)lv1.getSelectedItem();
+		mCurrentItem = (OverviewListItem)lv1.getSelectedItem();
 		if (mCurrentItem == null){
 			Log.w(TAG, "lvit is null, onCreateOptionsMenu");
 			return;
@@ -100,7 +140,7 @@ public class overview extends Activity {
 		DatabaseHelper openHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
-		List<OverViewListItem> items = new LinkedList<OverViewListItem>();
+		List<OverviewListItem> items = new LinkedList<OverviewListItem>();
 //		Cursor cursor = db.query("transactions", null, null, null, null, null, 
 //								 "id desc");
 		Cursor cursor = db.query(true, "transactions", new String[] {"person_id"}, 
@@ -115,7 +155,8 @@ public class overview extends Activity {
 				int person_id = cursor.getInt(0);
 				Log.d(TAG, "person_id: " + person_id);
 				Person p = new Person(this, person_id);
-				items.add(new OverViewListItem(p));
+				Log.d(TAG, "Image: " + p.getImage().getHeight());
+				items.add(new OverviewListItem(p));
 
 			} while (cursor.moveToNext());
 		}
@@ -126,7 +167,7 @@ public class overview extends Activity {
 //		lv1.setAdapter(new ArrayAdapter<OverViewListItem>(this,
 //				android.R.layout.simple_list_item_1, 
 //				items));
-		lv1.setAdapter(new ArrayAdapter<OverViewListItem>(this,
+		lv1.setAdapter(new OverviewAdapter(this,
 				R.layout.overviewlistitem, R.id.TextView01, 
 				items));
 
