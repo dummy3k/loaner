@@ -3,7 +3,6 @@ package dummy.loaner;
 import java.util.LinkedList;
 import java.util.List;
 
-import dummy.loaner.overview.OverviewListItem;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;

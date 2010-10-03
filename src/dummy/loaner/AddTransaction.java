@@ -2,13 +2,8 @@ package dummy.loaner;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentUris;
-import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Contacts.People;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
