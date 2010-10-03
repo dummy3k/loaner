@@ -93,7 +93,6 @@ public class overview extends Activity {
     	inflater.inflate(R.menu.person, menu);
     }
     
-    
     @Override
     public void onResume() {
     	super.onResume();
@@ -124,8 +123,11 @@ public class overview extends Activity {
 			cursor.close();
 		}        
 
+//		lv1.setAdapter(new ArrayAdapter<OverViewListItem>(this,
+//				android.R.layout.simple_list_item_1, 
+//				items));
 		lv1.setAdapter(new ArrayAdapter<OverViewListItem>(this,
-				android.R.layout.simple_list_item_1, 
+				R.layout.overviewlistitem, R.id.TextView01, 
 				items));
 
 		db.close();
