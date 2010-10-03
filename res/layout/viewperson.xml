@@ -3,9 +3,47 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/LinearLayout01"
     >
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	android:padding="5px"
+	>
+
+	<ImageView android:id="@+id/ImageView01"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical"
+		android:layout_width="72px"
+		android:layout_height="72px"
+		android:src="@drawable/dummy"
+		android:padding="5px"
+		/>
+	
+
+	<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_gravity="center"
+		android:padding="5px"
+		>
+
+		<TextView android:text="@+id/TextView01" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		<TextView android:text="@+id/TextView02" android:id="@+id/TextView02" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+           	android:layout_alignParentRight="true"
+			/>
+	</RelativeLayout>
+	
+
+</LinearLayout>
 	  
-<TextView android:text="@+id/TextView01" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 <Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:onClick="cmdAddTransaction" android:text="@string/addnew"></Button>
 <ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"></ListView>
   

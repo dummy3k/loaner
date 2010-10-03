@@ -39,7 +39,7 @@ public class ViewPerson extends Activity {
         Log.i(TAG, "Startup");
         setContentView(R.layout.viewperson);
     
-        lblPerson = (TextView)findViewById(R.id.TextView01);
+//        lblPerson = (TextView)findViewById(R.id.TextView01);
         lv1 = (ListView)findViewById(R.id.ListView01);
         
         Bundle bundle = getIntent().getExtras();
@@ -47,7 +47,8 @@ public class ViewPerson extends Activity {
         Log.i(TAG, "id: " + mPersonId);
 
         Person p = new Person(this, mPersonId);
-        lblPerson.setText(p.getName());
+//        lblPerson.setText(p.getName());
+        p.configureView(this, findViewById(R.id.LinearLayout01));
 	}
 
 	

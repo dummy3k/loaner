@@ -14,6 +14,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.Contacts.People;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class Person {
 	private static final String TAG = "Person";
@@ -85,5 +88,22 @@ public class Person {
 		}        
 
 		return retVal;
+	}
+	
+	public void configureView(Context context, View row) {
+		TextView label=(TextView)row.findViewById(R.id.TextView01);
+		label.setText(this.getName());
+
+		label=(TextView)row.findViewById(R.id.TextView02);
+		float saldo = this.getSaldo();
+		label.setText(String.format("%12.2f", saldo));
+		if (saldo < 0) {
+			label.setTextColor(context.getResources().getColor(R.color.red));
+		} else {
+			label.setTextColor(context.getResources().getColor(R.color.green));
+		}
+
+		ImageView icon=(ImageView)row.findViewById(R.id.ImageView01);
+		icon.setImageBitmap(this.getImage());
 	}
 }

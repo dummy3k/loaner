@@ -68,21 +68,7 @@ public class overview extends Activity {
 			}
 			View row=inflater.inflate(R.layout.overviewlistitem, null);
 			Person p = mItems.get(position).Person;
-			
-			TextView label=(TextView)row.findViewById(R.id.TextView01);
-			label.setText(p.getName());
-
-			label=(TextView)row.findViewById(R.id.TextView02);
-			float saldo = p.getSaldo();
-			label.setText(String.format("%12.2f", saldo));
-			if (saldo < 0) {
-				label.setTextColor(getResources().getColor(R.color.red));
-			} else {
-				label.setTextColor(getResources().getColor(R.color.green));
-			}
-
-			ImageView icon=(ImageView)row.findViewById(R.id.ImageView01);
-			icon.setImageBitmap(p.getImage());
+			p.configureView(this.getContext(), row);
 
 			return row;
 		}
