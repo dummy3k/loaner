@@ -46,9 +46,6 @@ public class AddTransaction extends Activity {
 			return;
     	}
 
-        DatabaseHelper openHelper = new DatabaseHelper(this);
-		SQLiteDatabase db = openHelper.getWritableDatabase();
-
 		String sql = this.getResources().getString(R.string.insert_table_transactions);
 		float amount = 0;
 		try {
@@ -65,7 +62,12 @@ public class AddTransaction extends Activity {
 		if (optLoanedTo.isChecked()) {
 			amount *= -1;
 		}
-		db.execSQL(sql, new Object[]{mPersonId, amount});
+
+		EditText txtMemo = (EditText)findViewById(R.id.EditText02);
+		DatabaseHelper openHelper = new DatabaseHelper(this);
+		SQLiteDatabase db = openHelper.getWritableDatabase();
+
+		db.execSQL(sql, new Object[]{mPersonId, amount, txtMemo.getText()});
 		
 		db.close();
 		finish();

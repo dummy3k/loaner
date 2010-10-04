@@ -12,10 +12,19 @@
 	       >
 	       
 		<RadioButton android:id="@+id/RadioButton01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i_loaned_to"></RadioButton>
-		<RadioButton android:id="@+id/RadioButton02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i_loaned_from"></RadioButton><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/amount"></TextView>
+		<RadioButton android:id="@+id/RadioButton02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/i_loaned_from"></RadioButton>
 	</RadioGroup>
 	
+	<TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/amount"></TextView>
 	<EditText android:id="@+id/EditText01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:inputType="number|numberDecimal"></EditText>
-	<Button android:id="@+id/Button01" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/save" android:onClick="@string/OnSaveClick"></Button>
+
+	<TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/memo"></TextView>
+	<EditText android:id="@+id/EditText02" android:layout_height="wrap_content" android:layout_width="fill_parent"></EditText>
+	
+	<Button android:id="@+id/Button01" android:layout_width="fill_parent" android:layout_height="wrap_content" 
+		android:text="@string/save"
+		android:onClick="@string/OnSaveClick"></Button>
+
+
 
 </LinearLayout>

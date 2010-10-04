@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="memo">Memo:</string>
 <string name="show">Show</string>
 <string name="delete_all">Delete All</string>
 <string name="addnew">Add New</string>
 <string name="OnSaveClick">OnSaveClick</string>
 <string name="save">Save</string>
-<string name="i_loaned_from">I loaned the money from</string>
-<string name="i_loaned_to">I loaned the money to</string>
+<string name="i_loaned_from">I received money</string>
+<string name="i_loaned_to">I gave money</string>
 <string name="debug">Debug</string>
 <string name="amount">Amount</string>
 <string name="debugHandler">debugHandler</string>
@@ -22,18 +23,23 @@
 CREATE TABLE transactions (
 	id INTEGER PRIMARY KEY,
 	person_id INTEGER,
-	amount REAL NOT NULL
+	amount REAL NOT NULL,
 )
 </string>
 <string name="insert_table_transactions">
-INSERT INTO transactions (person_id, amount)
-VALUES (?, ?)
+INSERT INTO transactions (person_id, amount, memo)
+VALUES (?, ?, ?)
 </string>
 
 <string name="select_person_saldo">
 SELECT SUM(amount)
 FROM transactions
 WHERE person_id = ?
+</string>
+
+<string name="update004_001">
+ALTER TABLE transactions 
+ADD COLUMN memo STRING;
 </string>
 
 </resources>
