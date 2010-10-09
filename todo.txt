@@ -1,4 +1,3 @@
-- remove all if sum is null
 - bump
 - transaction timestamp
 - sort by: name, saldo, first transaction, last transaction

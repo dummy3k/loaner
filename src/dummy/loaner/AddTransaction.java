@@ -2,6 +2,7 @@ package dummy.loaner;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,9 +26,6 @@ public class AddTransaction extends Activity {
         Log.i(TAG, "id: " + mPersonId);
         txtAmount = (EditText)findViewById(R.id.EditText01);
 
-//        TextView lblPerson = (TextView)findViewById(R.id.TextView02);
-//        Person person = new Person(this, mPersonId);
-//		lblPerson.setText(person.getName());
         Person p = new Person(this, mPersonId);
         p.configureView(this, findViewById(R.id.LinearLayout01));
 	}
@@ -69,8 +67,29 @@ public class AddTransaction extends Activity {
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
 		db.execSQL(sql, new Object[]{mPersonId, amount, txtMemo.getText()});
-		
 		db.close();
-		finish();
+		
+		Person p = new Person(this, mPersonId);
+		if (p.getSaldo() == 0) {
+			 AlertDialog.Builder adb=new AlertDialog.Builder(this);
+			 adb.setMessage(getResources().getString(R.string.quit_pro_quo));
+			 adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   Person p = new Person(AddTransaction.this, mPersonId);
+		        	   p.deleteAllTransactions();
+		        	   finish();
+		           }
+		       });
+			 adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+				 public void onClick(DialogInterface dialog, int id) {
+						finish();
+				 }
+			 });
+			 adb.show();
+			
+		} else {
+			finish();
+		}
+		
 	}
 }

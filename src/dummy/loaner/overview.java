@@ -215,7 +215,6 @@ public class overview extends Activity {
 
 		case R.id.mnuDeleteAll: {
 			 AlertDialog.Builder adb=new AlertDialog.Builder(overview.this);
-//			 adb.setTitle("LVSelectedItemExample");
 			 adb.setMessage(getResources().getString(R.string.really_delete_transactions));
 			 adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
