@@ -17,7 +17,7 @@
 		android:layout_height="wrap_content"
 		android:layout_weight="1"
 		android:padding="5px"
-		>
+		android:textColor="@color/white">
 		</TextView>
 	
 	<TextView android:text="@+id/txtAmount" android:id="@+id/txtAmount" 
