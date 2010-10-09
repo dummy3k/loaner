@@ -4,8 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -85,12 +87,6 @@ public class overview extends Activity {
         lv1 = (ListView)findViewById(R.id.ListView01);
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-//			        	 AlertDialog.Builder adb=new AlertDialog.Builder(overview.this);
-//			        	 adb.setTitle("LVSelectedItemExample");
-//			        	 adb.setMessage("Selected Item is = "+lv1.getItemAtPosition(position));
-//			        	 adb.setPositiveButton("Ok", null);
-//			        	 adb.show();
-
 				Intent myIntent = new Intent(overview.this, ViewPerson.class);
 				OverviewListItem lvit = (OverviewListItem)lv1.getItemAtPosition(position);
 				Log.d(TAG, "PersonId: " + lvit.Person.getId());
@@ -216,10 +212,24 @@ public class overview extends Activity {
 			startActivity(myIntent);
 			break;
 		}
-		
+
+		case R.id.mnuDeleteAll: {
+			 AlertDialog.Builder adb=new AlertDialog.Builder(overview.this);
+//			 adb.setTitle("LVSelectedItemExample");
+			 adb.setMessage(getResources().getString(R.string.really_delete_transactions));
+			 adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		  			 mCurrentItem.Person.deleteAllTransactions();
+					 onResume();
+		           }
+		       });
+			 adb.setNegativeButton("No", null);
+			 adb.show();
+			 break;
+		}
+
 		default:
 			Log.d(TAG, "unknown menu");
-//			return 
 		}
 		return true;
 	}

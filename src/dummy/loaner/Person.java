@@ -64,7 +64,7 @@ public class Person {
 	
 	public float getSaldo() {
 		DatabaseHelper openHelper = new DatabaseHelper(mContext);
-		SQLiteDatabase db = openHelper.getWritableDatabase();
+		SQLiteDatabase db = openHelper.getReadableDatabase();
 
 		Resources res = mContext.getResources();
 		String sql = res.getString(R.string.select_person_saldo);
@@ -92,7 +92,7 @@ public class Person {
 	
 	public static float getOverallSaldo(Context mContext) {
 		DatabaseHelper openHelper = new DatabaseHelper(mContext);
-		SQLiteDatabase db = openHelper.getWritableDatabase();
+		SQLiteDatabase db = openHelper.getReadableDatabase();
 		
 		Resources res = mContext.getResources();
 		String sql = res.getString(R.string.select_overall_saldo);
@@ -139,5 +139,11 @@ public class Person {
 		if (icon != null ) {
 			icon.setImageBitmap(this.getImage());
 		}
+	}
+	
+	public void deleteAllTransactions() {
+		SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+		String sql = mContext.getResources().getString(R.string.delete_person_transactions);
+		db.execSQL(sql, new String[]{Integer.toString(mPersonId)});
 	}
 }

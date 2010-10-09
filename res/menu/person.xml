@@ -4,6 +4,6 @@
   
 <item android:id="@+id/mnuShow" android:title="@string/show"></item>
 <item android:id="@+id/mnuAddNew" android:title="@string/addnew"></item>
-<item android:id="@+id/mnuDeleteAll" android:title="@string/delete_all"></item>
+<item android:id="@+id/mnuDeleteAll" android:title="@string/delete_all_transactions"></item>
 
 </menu>

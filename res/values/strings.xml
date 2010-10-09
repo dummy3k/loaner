@@ -3,7 +3,7 @@
     <string name="saldo">Saldo:</string>
     <string name="memo">Memo:</string>
 <string name="show">Show</string>
-<string name="delete_all">Delete All</string>
+<string name="delete_all_transactions">Delete All Transactions</string>
 <string name="addnew">Add New</string>
 <string name="OnSaveClick">OnSaveClick</string>
 <string name="save">Save</string>
@@ -19,6 +19,7 @@
 <string name="inputerror">Input Error</string>
 <string name="invalidamount">Invalid amount.</string>
 <string name="select_option_error">Please select whether you loaned or received the money.</string>
+<string name="really_delete_transactions">Do you really want to delete all transactions for this person?</string>
 
 <string name="create_table_transactions">
 CREATE TABLE transactions (
@@ -34,6 +35,12 @@ VALUES (?, ?, ?)
 
 <string name="select_person_saldo">
 SELECT SUM(amount)
+FROM transactions
+WHERE person_id = ?
+</string>
+
+<string name="delete_person_transactions">
+DELETE
 FROM transactions
 WHERE person_id = ?
 </string>
