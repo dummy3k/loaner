@@ -1,5 +1,7 @@
 package dummy.loaner;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,11 +27,13 @@ public class ViewPerson extends Activity {
 	public class ViewPersonListItem {
 		public int TransactionId;
 		private String mMemo;
+		private String mTimeStamp;
 		private float mAmount;
-		
+
 		public ViewPersonListItem(Cursor cursor) {
 			mMemo = cursor.getString(cursor.getColumnIndexOrThrow("memo"));
 			mAmount = cursor.getFloat(cursor.getColumnIndexOrThrow("amount"));
+			mTimeStamp = cursor.getString(cursor.getColumnIndexOrThrow("timestamp"));
 		}
 		
 		public void configureView(Context context, View row) {
@@ -43,6 +47,25 @@ public class ViewPerson extends Activity {
 			} else {
 				label.setTextColor(context.getResources().getColor(R.color.green));
 			}
+
+			label=(TextView)row.findViewById(R.id.txtTimeStamp);
+			if (mTimeStamp != null ) {
+				label.setText(mTimeStamp.substring(0, 10));
+			} else {
+				label.setText("1900-01-01");
+			}
+//				Log.d(TAG, "timestamp: " + mTimeStamp);
+//				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//				try {
+//					long bar = Date.parse(mTimeStamp);
+//					Log.d(TAG, "bar: " + Long.toString(bar));
+//					Date foo = new Date(bar);
+//					label.setText(dateFormat.format(foo));
+//				} catch (IllegalArgumentException ex) {
+//					Log.w(TAG, ex.toString());
+//					// ignore
+//				}
+//			}
 		}
 		
 //		@Override

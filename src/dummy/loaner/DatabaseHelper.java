@@ -9,7 +9,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String TAG = "DatabaseHelper";
     private static final String DATABASE_NAME = "loaner.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     private Context mContext;
     
     DatabaseHelper(Context context) {
@@ -30,12 +30,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Resources res = mContext.getResources();
 		
 		if (oldVersion < 3) {
-			String sql = res.getString(R.string.create_table_transactions);
-			db.execSQL(sql);
+			db.execSQL(res.getString(R.string.create_table_transactions));
 		}
 		if (oldVersion < 4) {
-			String sql = res.getString(R.string.update004_001);
-			db.execSQL(sql);
+			db.execSQL(res.getString(R.string.update004_001));
+		}
+		if (oldVersion < 5) {
+			db.execSQL(res.getString(R.string.update005_001));
 		}
 		Log.i(TAG, "onUpgrade(), complete");
 	}

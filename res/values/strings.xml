@@ -21,39 +21,4 @@
 <string name="select_option_error">Please select whether you loaned or received the money.</string>
 <string name="really_delete_transactions">Do you really want to delete all transactions for this person?</string>
 <string name="quit_pro_quo">Your balance with this person is zero. You can now safely delete all transactions for this person. Do you want to do this?</string>
-
-<string name="create_table_transactions">
-CREATE TABLE transactions (
-	id INTEGER PRIMARY KEY,
-	person_id INTEGER,
-	amount REAL NOT NULL,
-)
-</string>
-<string name="insert_table_transactions">
-INSERT INTO transactions (person_id, amount, memo)
-VALUES (?, ?, ?)
-</string>
-
-<string name="select_person_saldo">
-SELECT SUM(amount)
-FROM transactions
-WHERE person_id = ?
-</string>
-
-<string name="delete_person_transactions">
-DELETE
-FROM transactions
-WHERE person_id = ?
-</string>
-
-<string name="select_overall_saldo">
-SELECT SUM(amount)
-FROM transactions
-</string>
-
-<string name="update004_001">
-ALTER TABLE transactions 
-ADD COLUMN memo STRING;
-</string>
-
 </resources>
