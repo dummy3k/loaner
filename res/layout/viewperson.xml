@@ -6,6 +6,8 @@
     android:id="@+id/LinearLayout01"
     >
 
+<Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:onClick="cmdAddTransaction" android:text="@string/addnew"></Button>
+
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
@@ -32,7 +34,6 @@
 
 </LinearLayout>
 	  
-<Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:onClick="cmdAddTransaction" android:text="@string/addnew"></Button>
 <ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"
     android:layout_weight="1"
 	></ListView>

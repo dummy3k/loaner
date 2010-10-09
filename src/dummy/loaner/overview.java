@@ -111,16 +111,6 @@ public class overview extends Activity {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
 		Log.d(TAG, "onCreateContextMenu(");
     	super.onCreateContextMenu(menu, v, menuInfo);
-//		if (lv1.getSelectedItem() == null){
-//			Log.w(TAG, "lv1.getSelectedItem() is null, onCreateOptionsMenu");
-//			return;
-//		}
-//		mCurrentItem = (OverviewListItem)lv1.getSelectedItem();
-//		if (mCurrentItem == null){
-//			Log.w(TAG, "mCurrentItem is null, onCreateOptionsMenu");
-//			return;
-//		}
-//		Log.d(TAG, "PersonId: " + mCurrentItem.Person.getId());
 
     	MenuInflater inflater = getMenuInflater();
     	inflater.inflate(R.menu.person, menu);

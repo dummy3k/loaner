@@ -6,15 +6,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -155,11 +162,51 @@ public class ViewPerson extends Activity {
 		db.close();
     }
 
-	public void cmdAddTransaction(View view) {
+    private void addTransaction() {
 		Log.d(TAG, "addTransaction()");
 		Intent myIntent = new Intent(this, AddTransaction.class);
 		myIntent.putExtra("id", mPersonId);
 		startActivity(myIntent);
+    }
+	public void cmdAddTransaction(View view) {
+		addTransaction();
 	}
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		Log.w(TAG, "onCreateOptionsMenu()");
+		MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.viewperson, menu);
+    	return true;
+    }
+    
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+    	Log.d(TAG, "onOptionsItemSelected()");
+		switch (item.getItemId()) {
+		// We have only one menu option
+		case R.id.addnew:
+			addTransaction();
+			break;
+
+		case R.id.deleteAll: {
+			 AlertDialog.Builder adb=new AlertDialog.Builder(this);
+			 adb.setMessage(getResources().getString(R.string.really_delete_transactions));
+			 adb.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			 	public void onClick(DialogInterface dialog, int id) {
+					Person p = new Person(ViewPerson.this, mPersonId);
+					p.deleteAllTransactions();
+					ViewPerson.this.finish();
+		        }});
+			 adb.setNegativeButton("No", null);
+			 adb.show();
+			 break;
+		}
+
+		default:
+			Log.d(TAG, "unknown menu");
+		}
+		return super.onOptionsItemSelected(item);
+	}
+    
 }
