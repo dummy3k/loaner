@@ -90,8 +90,7 @@ public class overview extends Activity {
 //			        	 adb.setMessage("Selected Item is = "+lv1.getItemAtPosition(position));
 //			        	 adb.setPositiveButton("Ok", null);
 //			        	 adb.show();
-				 
-				 
+
 				Intent myIntent = new Intent(overview.this, ViewPerson.class);
 				OverviewListItem lvit = (OverviewListItem)lv1.getItemAtPosition(position);
 				Log.d(TAG, "PersonId: " + lvit.Person.getId());
@@ -99,24 +98,34 @@ public class overview extends Activity {
 				overview.this.startActivity(myIntent);
 			 }});
 
+        lv1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			public boolean onItemLongClick(AdapterView<?> a, View v, int position, long id) {
+		        Log.i(TAG, "OnItemLongClickListener()");
+				mCurrentItem = (OverviewListItem)lv1.getItemAtPosition(position);
+				Log.d(TAG, "OnItemLongClickListener(), PersonId: " + mCurrentItem.Person.getId());
+				return false;
+			}
+        });
+        
         registerForContextMenu(lv1);
         lv1.setOnCreateContextMenuListener(this);
 
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
-		if (lv1.getSelectedItem() == null){
-			Log.w(TAG, "lv1.getSelectedItem() is null, onCreateOptionsMenu");
-			return;
-		}
-		mCurrentItem = (OverviewListItem)lv1.getSelectedItem();
-		if (mCurrentItem == null){
-			Log.w(TAG, "lvit is null, onCreateOptionsMenu");
-			return;
-		}
-		Log.d(TAG, "PersonId: " + mCurrentItem.Person.getId());
-
 		Log.d(TAG, "onCreateContextMenu(");
+    	super.onCreateContextMenu(menu, v, menuInfo);
+//		if (lv1.getSelectedItem() == null){
+//			Log.w(TAG, "lv1.getSelectedItem() is null, onCreateOptionsMenu");
+//			return;
+//		}
+//		mCurrentItem = (OverviewListItem)lv1.getSelectedItem();
+//		if (mCurrentItem == null){
+//			Log.w(TAG, "mCurrentItem is null, onCreateOptionsMenu");
+//			return;
+//		}
+//		Log.d(TAG, "PersonId: " + mCurrentItem.Person.getId());
+
     	MenuInflater inflater = getMenuInflater();
     	inflater.inflate(R.menu.person, menu);
     }
@@ -163,6 +172,7 @@ public class overview extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+		Log.w(TAG, "onCreateOptionsMenu()");
 		MenuInflater inflater = getMenuInflater();
     	inflater.inflate(R.menu.overview, menu);
     	return true;
@@ -188,18 +198,25 @@ public class overview extends Activity {
 	public boolean onContextItemSelected (MenuItem item) {
 		super.onContextItemSelected(item);
 		Log.d(TAG, "onContextItemSelected()");
+		int id = mCurrentItem.Person.getId();
+		Log.d(TAG, "PersonId: " + id);
+
 		switch (item.getItemId()) {
 		// We have only one menu option
-		case R.id.mnuShow:
-			Log.d(TAG, "mnuShow");
-			int id = mCurrentItem.Person.getId();
-			Log.d(TAG, "PersonId: " + id);
-
+		case R.id.mnuShow: {
+			Intent myIntent = new Intent(this, ViewPerson.class);
+			myIntent.putExtra("id", id);
+			startActivity(myIntent);
+			break;
+		}
+			
+		case R.id.mnuAddNew: {
 			Intent myIntent = new Intent(this, AddTransaction.class);
 			myIntent.putExtra("id", id);
 			startActivity(myIntent);
 			break;
-			
+		}
+		
 		default:
 			Log.d(TAG, "unknown menu");
 //			return 
@@ -215,33 +232,6 @@ public class overview extends Activity {
 	
 	public void cmdAddTransaction(View view) {
 		addTransaction();
-	}
-	
-	public void debugHandler(View view) {
-		Intent myIntent = new Intent(view.getContext(), AddTransaction.class);
-		startActivity(myIntent);
-	}
-
-	public void debugHandler2(View view) {
-		//	content://contacts/people/1
-		long id = 1;
-		Uri.Builder builder = new Uri.Builder();
-		builder.scheme("content");
-		builder.appendEncodedPath("/contacts/people/1");
-		Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, id);
-//		lblContactUri.setText(contactData.toString());
-
-		Cursor c = managedQuery(contactData, null, null, null, null);
-		if (c == null) {
-//			lblContactUri.setText("c isnull");
-			return;
-		}
-
-		if (c.moveToFirst()) {
-			String name = c.getString(c.getColumnIndexOrThrow(People.NAME));
-//			lblContactUri.setText(name);
-		}
-
 	}
 	
 	@Override
