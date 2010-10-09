@@ -31,7 +31,7 @@ import android.view.MenuInflater;
 public class overview extends Activity {
 	private static final String TAG = "overview";
 	private static final int PICK_CONTACT = 1;
-	private TextView lblContactUri;
+//	private TextView lblContactUri;
 	private ListView lv1;
 	private OverviewListItem mCurrentItem;
 
@@ -81,7 +81,7 @@ public class overview extends Activity {
         Log.i(TAG, "Startup");
 
         setContentView(R.layout.main);
-        lblContactUri = (TextView)findViewById(R.id.TextView01);
+//        lblContactUri = (TextView)findViewById(R.id.TextView01);
         lv1 = (ListView)findViewById(R.id.ListView01);
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -129,17 +129,10 @@ public class overview extends Activity {
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
 		List<OverviewListItem> items = new LinkedList<OverviewListItem>();
-//		Cursor cursor = db.query("transactions", null, null, null, null, null, 
-//								 "id desc");
 		Cursor cursor = db.query(true, "transactions", new String[] {"person_id"}, 
 				 null, null, null, null, null, null);
 		if (cursor != null && cursor.moveToFirst()) {
 			do {
-				Log.d(TAG, "--------");
-				Log.d(TAG, Integer.toString(cursor.getInt(0)));
-//				Log.d(TAG, Integer.toString(cursor.getInt(1)));
-//				Log.d(TAG, Integer.toString(cursor.getInt(2)));
-
 				int person_id = cursor.getInt(0);
 				Log.d(TAG, "person_id: " + person_id);
 				Person p = new Person(this, person_id);
@@ -152,14 +145,20 @@ public class overview extends Activity {
 			cursor.close();
 		}        
 
-//		lv1.setAdapter(new ArrayAdapter<OverViewListItem>(this,
-//				android.R.layout.simple_list_item_1, 
-//				items));
 		lv1.setAdapter(new OverviewAdapter(this,
 				R.layout.overviewlistitem, R.id.TextView01, 
 				items));
 
 		db.close();
+
+        TextView label = (TextView)findViewById(R.id.txtOverallSaldo);
+		float saldo = Person.getOverallSaldo(this);
+		label.setText(String.format("%12.2f", saldo));
+		if (saldo < 0) {
+			label.setTextColor(getResources().getColor(R.color.red));
+		} else {
+			label.setTextColor(getResources().getColor(R.color.green));
+		}
     }
 
     @Override
@@ -230,17 +229,17 @@ public class overview extends Activity {
 		builder.scheme("content");
 		builder.appendEncodedPath("/contacts/people/1");
 		Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, id);
-		lblContactUri.setText(contactData.toString());
+//		lblContactUri.setText(contactData.toString());
 
 		Cursor c = managedQuery(contactData, null, null, null, null);
 		if (c == null) {
-			lblContactUri.setText("c isnull");
+//			lblContactUri.setText("c isnull");
 			return;
 		}
 
 		if (c.moveToFirst()) {
 			String name = c.getString(c.getColumnIndexOrThrow(People.NAME));
-			lblContactUri.setText(name);
+//			lblContactUri.setText(name);
 		}
 
 	}

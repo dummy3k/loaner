@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="saldo">Saldo:</string>
     <string name="memo">Memo:</string>
 <string name="show">Show</string>
 <string name="delete_all">Delete All</string>
@@ -35,6 +36,11 @@ VALUES (?, ?, ?)
 SELECT SUM(amount)
 FROM transactions
 WHERE person_id = ?
+</string>
+
+<string name="select_overall_saldo">
+SELECT SUM(amount)
+FROM transactions
 </string>
 
 <string name="update004_001">

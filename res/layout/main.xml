@@ -8,8 +8,24 @@
 
 <Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:onClick="cmdAddTransaction" android:text="@string/addnew"></Button>
 
+<ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"
+    android:layout_weight="1"
+	></ListView>
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
 
-<ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"></ListView>
+	<TextView android:id="@+id/TextView01" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+	    android:layout_weight="1"
+		android:text="@string/saldo"></TextView>
+	<TextView android:text="@+id/txtOverallSaldo" android:id="@+id/txtOverallSaldo" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:padding="5px"
+		></TextView>
+</LinearLayout>
 
 </LinearLayout>

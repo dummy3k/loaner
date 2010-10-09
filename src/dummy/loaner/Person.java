@@ -90,6 +90,34 @@ public class Person {
 		return retVal;
 	}
 	
+	public static float getOverallSaldo(Context mContext) {
+		DatabaseHelper openHelper = new DatabaseHelper(mContext);
+		SQLiteDatabase db = openHelper.getWritableDatabase();
+		
+		Resources res = mContext.getResources();
+		String sql = res.getString(R.string.select_overall_saldo);
+		Cursor cursor = db.rawQuery(sql, new String[]{});
+		
+		if (cursor == null) {
+			Log.e(TAG, "Cursor is null");
+			return -12.34f;
+		}        
+		
+		if (!cursor.moveToFirst()) {
+			Log.w(TAG, "No row");
+			return 0;
+		}        
+		
+		float retVal = cursor.getFloat(0);
+		
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		}        
+		db.close();
+		
+		return retVal;
+	}
+	
 	public void configureView(Context context, View row) {
 		TextView label=(TextView)row.findViewById(R.id.txtPersonName);
 		if (label != null) {
