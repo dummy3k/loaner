@@ -3,9 +3,45 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/LinearLayout01"
     >
 
-	<TextView android:text="@+id/TextView02" android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:padding="5px"
+		>
+	
+		<ImageView android:id="@+id/imgPerson"
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:orientation="vertical"
+			android:layout_width="72px"
+			android:layout_height="72px"
+			android:src="@drawable/dummy"
+			android:padding="5px"
+			/>
+		
+	
+		<RelativeLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_gravity="center"
+			android:padding="5px"
+			>
+	
+			<TextView android:text="@+id/txtPersonName" android:id="@+id/txtPersonName" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@+id/txtPersonSaldo" android:id="@+id/txtPersonSaldo" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+	           	android:layout_alignParentRight="true"
+				/>
+		</RelativeLayout>
+	</LinearLayout>
+
 	<RadioGroup android:layout_width="fill_parent"
 	       android:layout_height="wrap_content" android:orientation="vertical"
 	       android:id="@+id/group1"

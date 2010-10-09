@@ -26,9 +26,11 @@ public class AddTransaction extends Activity {
         Log.i(TAG, "id: " + mPersonId);
         txtAmount = (EditText)findViewById(R.id.EditText01);
 
-        TextView lblPerson = (TextView)findViewById(R.id.TextView02);
-        Person person = new Person(this, mPersonId);
-		lblPerson.setText(person.getName());
+//        TextView lblPerson = (TextView)findViewById(R.id.TextView02);
+//        Person person = new Person(this, mPersonId);
+//		lblPerson.setText(person.getName());
+        Person p = new Person(this, mPersonId);
+        p.configureView(this, findViewById(R.id.LinearLayout01));
 	}
 
 	public void OnSaveClick(View view) {
