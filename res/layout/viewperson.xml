@@ -23,28 +23,34 @@
 		android:padding="5px"
 		/>
 	
-
-	<RelativeLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
+	<TextView android:text="@+id/txtPersonName" android:id="@+id/txtPersonName" android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:orientation="vertical"
 		android:layout_gravity="center"
-		android:padding="5px"
-		>
+		></TextView>
 
-		<TextView android:text="@+id/txtPersonName" android:id="@+id/txtPersonName" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-		<TextView android:text="@+id/txtPersonSaldo" android:id="@+id/txtPersonSaldo" 
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-           	android:layout_alignParentRight="true"
-			/>
-	</RelativeLayout>
 	
 
 </LinearLayout>
 	  
 <Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:onClick="cmdAddTransaction" android:text="@string/addnew"></Button>
-<ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"></ListView>
+<ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"
+    android:layout_weight="1"
+	></ListView>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+	<TextView android:id="@+id/TextView01" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+	    android:layout_weight="1"
+		android:text="@string/saldo"></TextView>
+	<TextView android:text="@+id/txtPersonSaldo" android:id="@+id/txtPersonSaldo" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:padding="5px"
+		></TextView>
+</LinearLayout>
   
 </LinearLayout>
