@@ -30,12 +30,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Resources res = mContext.getResources();
 		
 		if (oldVersion < 3) {
+			Log.i(TAG, "update to version 3");
 			db.execSQL(res.getString(R.string.create_table_transactions));
 		}
 		if (oldVersion < 4) {
+			Log.i(TAG, "update to version 4");
 			db.execSQL(res.getString(R.string.update004_001));
 		}
 		if (oldVersion < 5) {
+			Log.i(TAG, "update to version 5");
 			db.execSQL(res.getString(R.string.update005_001));
 		}
 		Log.i(TAG, "onUpgrade(), complete");

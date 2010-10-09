@@ -4,7 +4,7 @@
 CREATE TABLE transactions (
 	id INTEGER PRIMARY KEY,
 	person_id INTEGER,
-	amount REAL NOT NULL,
+	amount REAL NOT NULL
 )
 </string>
 <string name="insert_table_transactions">
