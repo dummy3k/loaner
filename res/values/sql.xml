@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="create_table_transactions">
+CREATE TABLE transactions (
+	id INTEGER PRIMARY KEY,
+	person_id INTEGER,
+	amount REAL NOT NULL,
+)
+</string>
+<string name="insert_table_transactions">
+INSERT INTO transactions (person_id, amount, memo, timestamp)
+VALUES (?, ?, ?, datetime())
+</string>
+
+<string name="select_person_saldo">
+SELECT SUM(amount)
+FROM transactions
+WHERE person_id = ?
+</string>
+
+<string name="delete_person_transactions">
+DELETE
+FROM transactions
+WHERE person_id = ?
+</string>
+
+<string name="select_overall_saldo">
+SELECT SUM(amount)
+FROM transactions
+</string>
+
+<string name="update004_001">
+ALTER TABLE transactions 
+ADD COLUMN memo STRING;
+</string>
+
+<string name="update005_001">
+ALTER TABLE transactions 
+ADD COLUMN timestamp DATE;
+</string>
+</resources>
