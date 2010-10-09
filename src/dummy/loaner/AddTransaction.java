@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 public class AddTransaction extends Activity {
 	private static final String TAG = "AddTransaction";

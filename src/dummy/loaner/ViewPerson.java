@@ -3,8 +3,6 @@ package dummy.loaner;
 import java.util.LinkedList;
 import java.util.List;
 
-import dummy.loaner.overview.OverviewListItem;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 public class ViewPerson extends Activity {
 	private static final String TAG = "ViewPerson";
 	private int mPersonId;
-	private TextView lblPerson;
 	private ListView lv1;
 
 	public class ViewPersonListItem {
