@@ -3,3 +3,4 @@
 - http://code.google.com/p/android-wheel/
 - dirty flag for listviews
 - reminder
+- take picture for transaction
