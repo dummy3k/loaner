@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.i(TAG, "onUpgrade()");
+		Log.i(TAG, String.format("onUpgrade(%s, %s)", oldVersion, newVersion));
 		Resources res = mContext.getResources();
 		
 		if (oldVersion < 3) {

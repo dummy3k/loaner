@@ -1,9 +1,5 @@
 package dummy.loaner;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import dummy.loaner.overview.OverviewListItem;
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
@@ -55,6 +51,9 @@ public class Person {
 	}
 	
 	public String getName() {
+		if (mCursor == null) {
+			return "Nobody";
+		}
 		return mCursor.getString(mCursor.getColumnIndexOrThrow(People.NAME));
 	}
 	
@@ -86,6 +85,7 @@ public class Person {
 		if (cursor != null && !cursor.isClosed()) {
 			cursor.close();
 		}        
+		db.close();
 
 		return retVal;
 	}
