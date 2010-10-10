@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="reverse">Reverse</string>
     <string name="saldo">Saldo:</string>
     <string name="memo">Memo:</string>
 <string name="show">Show</string>

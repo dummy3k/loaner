@@ -8,10 +8,20 @@
 
 <Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:onClick="cmdAddTransaction" android:text="@string/addnew"></Button>
 
-<Spinner android:id="@+id/Spinner01" 
-	android:layout_width="fill_parent" 
-	android:layout_height="wrap_content"
-	></Spinner>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+	<Spinner android:id="@+id/Spinner01" 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+	    android:layout_weight="1"
+		></Spinner>
+	
+	<CheckBox android:id="@+id/CheckBox01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/reverse" android:onClick="onChkReverseClick"></CheckBox>
+</LinearLayout>
 
 <ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"
     android:layout_weight="1"
@@ -42,6 +52,7 @@
 		android:textStyle="bold"
 		></TextView>
 </LinearLayout>
+
 
 
 </LinearLayout>

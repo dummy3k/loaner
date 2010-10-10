@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -145,6 +146,10 @@ public class overview extends Activity {
         mSortBy = SortBy.values()[prefs.getInt("sortBy", 0)];
         s.setSelection(mSortBy.ordinal());
 
+        mSortRevervse = prefs.getBoolean("sortByReverse", false);
+        CheckBox chk = (CheckBox)findViewById(R.id.CheckBox01);
+        chk.setChecked(mSortRevervse);
+        
         mfInitialized = true;
     }
 
@@ -154,6 +159,7 @@ public class overview extends Activity {
 
         SharedPreferences.Editor ed = getSharedPreferences(TAG, MODE_PRIVATE).edit();
         ed.putInt("sortBy", mSortBy.ordinal());
+        ed.putBoolean("sortByReverse", mSortRevervse);
         ed.commit();
     }
 
@@ -194,19 +200,31 @@ public class overview extends Activity {
 			public int compare(OverviewListItem object1,
 					OverviewListItem object2) {
 				
+				int retVal = 0;
+				
 				switch (mSortBy){
 				case Name:
-					return object1.Person.getName().compareTo(object2.Person.getName());
+					retVal = object1.Person.getName().compareTo(object2.Person.getName());
+					break;
 				case Saldo:
-					return Float.compare(object1.Person.getSaldo(), object2.Person.getSaldo());
+					retVal = Float.compare(object1.Person.getSaldo(), object2.Person.getSaldo());
+					break;
 				case FirstTransaction:
-					return object1.Person.getFirstTransaction().compareTo(object2.Person.getFirstTransaction());
+					retVal = object1.Person.getFirstTransaction().compareTo(object2.Person.getFirstTransaction());
+					break;
 				case LastTransaction:
-					return object1.Person.getLastTransaction().compareTo(object2.Person.getLastTransaction());
+					retVal = object1.Person.getLastTransaction().compareTo(object2.Person.getLastTransaction());
+					break;
+				default:
+					Log.wtf(TAG, "bad sort key");
+					break;
 				}
 				
-				Log.wtf(TAG, "bad sort key");
-				return 0;
+				if (mSortRevervse) {
+					retVal *= -1;
+				}
+				
+				return retVal;
 			}});
 		
 		lv1.setAdapter(new OverviewAdapter(this,
@@ -321,6 +339,13 @@ public class overview extends Activity {
 				}
 				break;
 		}
+	}
+	
+	public void onChkReverseClick(View view) {
+		Log.d(TAG, "onChkReverseClick()");
+		CheckBox chk = (CheckBox)view;
+		mSortRevervse = chk.isChecked();
+		onResume();
 	}
 	
 }
