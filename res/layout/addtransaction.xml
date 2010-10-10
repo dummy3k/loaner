@@ -6,6 +6,10 @@
     android:id="@+id/LinearLayout01"
     >
 
+	<Button android:id="@+id/Button01" android:layout_width="fill_parent" android:layout_height="wrap_content" 
+		android:text="@string/save"
+		android:onClick="@string/OnSaveClick"></Button>
+
 	<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="fill_parent"
@@ -56,11 +60,5 @@
 
 	<TextView android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/memo"></TextView>
 	<EditText android:id="@+id/EditText02" android:layout_height="wrap_content" android:layout_width="fill_parent"></EditText>
-	
-	<Button android:id="@+id/Button01" android:layout_width="fill_parent" android:layout_height="wrap_content" 
-		android:text="@string/save"
-		android:onClick="@string/OnSaveClick"></Button>
-
-
 
 </LinearLayout>
