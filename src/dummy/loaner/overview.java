@@ -1,18 +1,17 @@
 package dummy.loaner;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.R.bool;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -27,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,6 +49,8 @@ public class overview extends Activity {
 	 * for menu actions.
 	 */
 	private OverviewListItem mCurrentItem;
+	
+	private boolean mfInitialized = false; 
 
 	public class OverviewListItem {
 		private Person Person;
@@ -98,7 +98,7 @@ public class overview extends Activity {
         Log.i(TAG, "Startup");
 
         setContentView(R.layout.main);
-//        lblContactUri = (TextView)findViewById(R.id.TextView01);
+
         lv1 = (ListView)findViewById(R.id.ListView01);
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
@@ -121,6 +121,7 @@ public class overview extends Activity {
         registerForContextMenu(lv1);
         lv1.setOnCreateContextMenuListener(this);
 
+        
         Spinner s = (Spinner)findViewById(R.id.Spinner01);
         ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
                 this, R.array.overview_sortby, android.R.layout.simple_spinner_item);
@@ -128,6 +129,8 @@ public class overview extends Activity {
         s.setAdapter(adapter);
         s.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> a, View v, int position, long id) {
+				if (!mfInitialized) return;
+				Log.d(TAG, "sort order changed");
 				mSortBy = SortBy.values()[position];
 				onResume();
 			}
@@ -135,8 +138,36 @@ public class overview extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-        
+
+        SharedPreferences prefs = getSharedPreferences(TAG,MODE_PRIVATE);
+        mSortBy = SortBy.values()[prefs.getInt("sortBy", 0)];
+        s.setSelection(mSortBy.ordinal());
+
+        mfInitialized = true;
     }
+
+    protected void  onPause() {
+        Log.i(TAG, "onPause()");
+        super.onPause();
+
+        SharedPreferences.Editor ed = getSharedPreferences(TAG, MODE_PRIVATE).edit();
+        ed.putInt("sortBy", mSortBy.ordinal());
+        ed.commit();
+    }
+    
+//    @Override
+//    public void onRestoreInstanceState(Bundle savedInstanceState) {
+//        Log.i(TAG, "onSaveInstanceState");
+//        if (savedInstanceState == null ) {
+//            Log.w(TAG, "savedInstanceState is null");
+//        }
+//    }
+//
+//    @Override
+//    public void onSaveInstanceState(Bundle savedInstanceState) {
+//        Log.i(TAG, "onSaveInstanceState");
+//    	savedInstanceState.putInt("sortBy", mSortBy.ordinal());
+//    }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
 		Log.d(TAG, "onCreateContextMenu(");
