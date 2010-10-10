@@ -8,6 +8,11 @@
 
 <Button android:id="@+id/Button01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:onClick="cmdAddTransaction" android:text="@string/addnew"></Button>
 
+<Spinner android:id="@+id/Spinner01" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	></Spinner>
+
 <ListView android:id="@+id/ListView01" android:layout_width="fill_parent" android:layout_height="wrap_content"
     android:layout_weight="1"
 	></ListView>
@@ -37,5 +42,6 @@
 		android:textStyle="bold"
 		></TextView>
 </LinearLayout>
+
 
 </LinearLayout>

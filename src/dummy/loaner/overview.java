@@ -1,8 +1,12 @@
 package dummy.loaner;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.R.bool;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
@@ -25,16 +29,27 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.util.Log;
 import android.view.MenuInflater;
 
-
 public class overview extends Activity {
 	private static final String TAG = "overview";
 	private static final int PICK_CONTACT = 1;
-//	private TextView lblContactUri;
 	private ListView lv1;
+	
+	private enum SortBy {
+		Name,
+		Saldo
+	}
+	private SortBy mSortBy = SortBy.Saldo;
+	private boolean mSortRevervse = false;
+	
+	/**
+	 * This is the selected element in the list
+	 * for menu actions.
+	 */
 	private OverviewListItem mCurrentItem;
 
 	public class OverviewListItem {
@@ -52,10 +67,10 @@ public class overview extends Activity {
 	
 	public class OverviewAdapter extends ArrayAdapter<OverviewListItem> {
 		private Context mContext;
-		private List<OverviewListItem> mItems;
+		private OverviewListItem[] mItems;
 		
 		public OverviewAdapter(Context context, int resource,
-				int textViewResourceId, List<OverviewListItem> objects) {
+				int textViewResourceId, OverviewListItem[] objects) {
 			
 			super(context, resource, textViewResourceId, objects);
 			mContext = context;
@@ -69,7 +84,7 @@ public class overview extends Activity {
 				Log.e(TAG, "inflater is null!");
 			}
 			View row=inflater.inflate(R.layout.overviewlistitem, null);
-			Person p = mItems.get(position).Person;
+			Person p = mItems[position].Person;
 			p.configureView(this.getContext(), row);
 
 			return row;
@@ -106,6 +121,21 @@ public class overview extends Activity {
         registerForContextMenu(lv1);
         lv1.setOnCreateContextMenuListener(this);
 
+        Spinner s = (Spinner)findViewById(R.id.Spinner01);
+        ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(
+                this, R.array.overview_sortby, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(adapter);
+        s.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> a, View v, int position, long id) {
+				mSortBy = SortBy.values()[position];
+				onResume();
+			}
+
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+        
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
@@ -123,7 +153,7 @@ public class overview extends Activity {
 		DatabaseHelper openHelper = new DatabaseHelper(this);
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 
-		List<OverviewListItem> items = new LinkedList<OverviewListItem>();
+		List<OverviewListItem> itemList = new LinkedList<OverviewListItem>();
 		Cursor cursor = db.query(true, "transactions", new String[] {"person_id"}, 
 				 null, null, null, null, null, null);
 		if (cursor != null && cursor.moveToFirst()) {
@@ -132,7 +162,7 @@ public class overview extends Activity {
 				Log.d(TAG, "person_id: " + person_id);
 				Person p = new Person(this, person_id);
 				Log.d(TAG, "Image: " + p.getImage().getHeight());
-				items.add(new OverviewListItem(p));
+				itemList.add(new OverviewListItem(p));
 
 			} while (cursor.moveToNext());
 		}
@@ -140,9 +170,25 @@ public class overview extends Activity {
 			cursor.close();
 		}        
 
+		OverviewListItem[] itemArray = itemList.toArray(new OverviewListItem[]{});
+		Arrays.sort(itemArray, new Comparator<OverviewListItem>() {
+			public int compare(OverviewListItem object1,
+					OverviewListItem object2) {
+				
+				switch (mSortBy){
+				case Name:
+					return object1.Person.getName().compareTo(object2.Person.getName());
+				case Saldo:
+					return Float.compare(object1.Person.getSaldo(), object2.Person.getSaldo());
+				}
+				
+				Log.wtf(TAG, "bad sort key");
+				return 0;
+			}});
+		
 		lv1.setAdapter(new OverviewAdapter(this,
 				R.layout.overviewlistitem, R.id.TextView01, 
-				items));
+				itemArray));
 
 		db.close();
 
@@ -163,8 +209,10 @@ public class overview extends Activity {
     	inflater.inflate(R.menu.overview, menu);
     	return true;
     }
-
-	// This method is called once the menu is selected
+	 
+	/**
+	 * Called when menu item is selected
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
     	Log.d(TAG, "onOptionsItemSelected()");

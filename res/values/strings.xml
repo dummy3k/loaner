@@ -21,4 +21,9 @@
 <string name="select_option_error">Please select whether you loaned or received the money.</string>
 <string name="really_delete_transactions">Do you really want to delete all transactions for this person?</string>
 <string name="quit_pro_quo">Your balance with this person is zero. You can now safely delete all transactions for this person. Do you want to do this?</string>
+<string-array name="overview_sortby">
+    <item>Sort by Name</item>
+    <item>Sort by Saldo</item>
+</string-array>
+
 </resources>
