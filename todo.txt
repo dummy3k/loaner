@@ -4,3 +4,4 @@
 - dirty flag for listviews
 - reminder
 - take picture for transaction
+- insert "please donate" transaction after 1 year use
