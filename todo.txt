@@ -1,5 +1,4 @@
 - bump
-- sort by: name, saldo, first transaction, last transaction
 - http://code.google.com/p/android-wheel/
 - dirty flag for listviews
 - reminder

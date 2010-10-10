@@ -133,6 +133,7 @@ public class overview extends Activity {
         s.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> a, View v, int position, long id) {
 				if (!mfInitialized) return;
+				if (mSortBy == SortBy.values()[position]) return;
 				Log.d(TAG, "sort order changed");
 				mSortBy = SortBy.values()[position];
 				onResume();
