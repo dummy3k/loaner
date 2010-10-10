@@ -16,7 +16,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Contacts.People;
+import android.provider.ContactsContract;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -187,7 +187,7 @@ public class overview extends Activity {
 				int person_id = cursor.getInt(0);
 				Log.d(TAG, "person_id: " + person_id);
 				Person p = new Person(this, person_id);
-				Log.d(TAG, "Image: " + p.getImage().getHeight());
+//				Log.d(TAG, "Image: " + p.getImage().getHeight());
 				itemList.add(new OverviewListItem(p));
 
 			} while (cursor.moveToNext());
@@ -319,7 +319,7 @@ public class overview extends Activity {
 	
 	private void addTransaction() {
 		// Launch new activity
-		Intent intent = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
+		Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
 		startActivityForResult(intent, PICK_CONTACT);  
 	}
 	

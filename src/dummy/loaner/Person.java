@@ -1,5 +1,7 @@
 package dummy.loaner;
 
+import java.io.InputStream;
+
 import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
@@ -7,8 +9,10 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.Contacts.People;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -54,7 +58,7 @@ public class Person {
 //		Uri.Builder builder = new Uri.Builder();
 //		builder.scheme("content");
 //		builder.appendEncodedPath("/contacts/people/1");
-		Uri contactData = ContentUris.withAppendedId(People.CONTENT_URI, mPersonId);
+		Uri contactData = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, mPersonId);
 //		content://contacts/people/1
 
 		Cursor c = activity.managedQuery(contactData, null, null, null, null);
@@ -78,12 +82,15 @@ public class Person {
 		if (mCursor == null) {
 			return "Nobody";
 		}
-		return mCursor.getString(mCursor.getColumnIndexOrThrow(People.NAME));
+		return mCursor.getString(mCursor.getColumnIndexOrThrow(Contacts.DISPLAY_NAME));
 	}
 	
 	public Bitmap getImage() {
-		Uri uri = ContentUris.withAppendedId(People.CONTENT_URI, mPersonId);
-		return People.loadContactPhoto(mContext, uri, R.drawable.icon, null);
+		Uri uri = ContentUris.withAppendedId(Contacts.CONTENT_URI, mPersonId);
+		InputStream photoDataStream = Contacts.openContactPhotoInputStream(mContext.getContentResolver(),uri); // <-- always null
+		if (photoDataStream == null) return null;
+	    Bitmap photo = BitmapFactory.decodeStream(photoDataStream);
+	    return photo;
 	}
 	
 	public float getSaldo() {
