@@ -19,11 +19,35 @@ public class Person {
 	private int mPersonId;
 	private Cursor mCursor;
 	private Context mContext;
+	private float mSaldo;
+	private String mFirstTransaction;
+	private String mLastTransaction;
 	
 	public Person(Activity activity, int id) {
 		mPersonId = id;
 		mContext = activity;
 		getCursor(activity);
+		
+		DatabaseHelper openHelper = new DatabaseHelper(mContext);
+		SQLiteDatabase db = openHelper.getReadableDatabase();
+
+		Resources res = mContext.getResources();
+		String sql = res.getString(R.string.aggregate_person);
+		Cursor cursor = db.rawQuery(sql, new String[]{Integer.toString(mPersonId)});
+		
+		if (cursor == null || !cursor.moveToFirst()) {
+			Log.e(TAG, "Cursor is null or no row");
+		} else {
+			mSaldo = cursor.getFloat(0);
+			mFirstTransaction = cursor.getString(1);
+			mLastTransaction = cursor.getString(2);
+			Log.d(TAG, String.format("%s: %s, %s", getName(), mFirstTransaction, mLastTransaction));
+		}
+
+		if (cursor != null && !cursor.isClosed()) {
+			cursor.close();
+		}        
+		db.close();
 	}
 	
 	private void getCursor(Activity activity) {
@@ -63,31 +87,15 @@ public class Person {
 	}
 	
 	public float getSaldo() {
-		DatabaseHelper openHelper = new DatabaseHelper(mContext);
-		SQLiteDatabase db = openHelper.getReadableDatabase();
-
-		Resources res = mContext.getResources();
-		String sql = res.getString(R.string.select_person_saldo);
-		Cursor cursor = db.rawQuery(sql, new String[]{Integer.toString(mPersonId)});
-		
-		if (cursor == null) {
-			Log.e(TAG, "Cursor is null");
-			return -12.34f;
-		}        
-
-		if (!cursor.moveToFirst()) {
-			Log.w(TAG, "No row");
-			return 0;
-		}        
-		
-		float retVal = cursor.getFloat(0);
-		
-		if (cursor != null && !cursor.isClosed()) {
-			cursor.close();
-		}        
-		db.close();
-
-		return retVal;
+		return mSaldo;
+	}
+	
+	public String getFirstTransaction() {
+		return mFirstTransaction;
+	}
+	
+	public String getLastTransaction() {
+		return mLastTransaction;
 	}
 	
 	public static float getOverallSaldo(Context mContext) {

@@ -24,6 +24,8 @@
 <string-array name="overview_sortby">
     <item>Sort by Name</item>
     <item>Sort by Saldo</item>
+    <item>Sort by first Transaction</item>
+    <item>Sort by last Transaction</item>
 </string-array>
 
 </resources>

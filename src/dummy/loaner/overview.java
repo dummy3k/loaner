@@ -39,7 +39,9 @@ public class overview extends Activity {
 	
 	private enum SortBy {
 		Name,
-		Saldo
+		Saldo,
+		FirstTransaction,
+		LastTransaction
 	}
 	private SortBy mSortBy = SortBy.Saldo;
 	private boolean mSortRevervse = false;
@@ -146,7 +148,7 @@ public class overview extends Activity {
         mfInitialized = true;
     }
 
-    protected void  onPause() {
+    protected void onPause() {
         Log.i(TAG, "onPause()");
         super.onPause();
 
@@ -154,20 +156,6 @@ public class overview extends Activity {
         ed.putInt("sortBy", mSortBy.ordinal());
         ed.commit();
     }
-    
-//    @Override
-//    public void onRestoreInstanceState(Bundle savedInstanceState) {
-//        Log.i(TAG, "onSaveInstanceState");
-//        if (savedInstanceState == null ) {
-//            Log.w(TAG, "savedInstanceState is null");
-//        }
-//    }
-//
-//    @Override
-//    public void onSaveInstanceState(Bundle savedInstanceState) {
-//        Log.i(TAG, "onSaveInstanceState");
-//    	savedInstanceState.putInt("sortBy", mSortBy.ordinal());
-//    }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo){
 		Log.d(TAG, "onCreateContextMenu(");
@@ -211,6 +199,10 @@ public class overview extends Activity {
 					return object1.Person.getName().compareTo(object2.Person.getName());
 				case Saldo:
 					return Float.compare(object1.Person.getSaldo(), object2.Person.getSaldo());
+				case FirstTransaction:
+					return object1.Person.getFirstTransaction().compareTo(object2.Person.getFirstTransaction());
+				case LastTransaction:
+					return object1.Person.getLastTransaction().compareTo(object2.Person.getLastTransaction());
 				}
 				
 				Log.wtf(TAG, "bad sort key");

@@ -12,8 +12,8 @@ INSERT INTO transactions (person_id, amount, memo, timestamp)
 VALUES (?, ?, ?, datetime())
 </string>
 
-<string name="select_person_saldo">
-SELECT SUM(amount)
+<string name="aggregate_person">
+SELECT SUM(amount), MIN(timestamp), MAX(timestamp)
 FROM transactions
 WHERE person_id = ?
 </string>
