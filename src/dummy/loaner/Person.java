@@ -21,8 +21,8 @@ import android.widget.TextView;
 public class Person {
 	private static final String TAG = "Person";
 	private int mPersonId;
-	private Cursor mCursor;
-	private Context mContext;
+//	private Cursor mCursor;
+	private Activity mContext;
 	private float mSaldo;
 	private String mFirstTransaction;
 	private String mLastTransaction;
@@ -54,7 +54,7 @@ public class Person {
 		db.close();
 	}
 	
-	private void getCursor(Activity activity) {
+	private Cursor getCursor(Activity activity) {
 //		Uri.Builder builder = new Uri.Builder();
 //		builder.scheme("content");
 //		builder.appendEncodedPath("/contacts/people/1");
@@ -64,14 +64,15 @@ public class Person {
 		Cursor c = activity.managedQuery(contactData, null, null, null, null);
 		if (c == null) {
 			Log.e(TAG, "c is null");
-			return;
+			return null;
 		}
 		
 		if (!c.moveToFirst()) {
 			Log.e(TAG, "person not found");
-			return;
+			return null;
 		}
-		mCursor = c;
+//		mCursor = c;
+		return c;
 	}
 	
 	public int getId() {
@@ -79,9 +80,14 @@ public class Person {
 	}
 	
 	public String getName() {
+		Cursor mCursor = getCursor(mContext);
 		if (mCursor == null) {
 			return "Nobody";
 		}
+		if (mCursor.isClosed()) {
+			Log.w(TAG, "cursor is closed!");
+		}
+		Log.d(TAG, "col index: " + mCursor.getColumnIndexOrThrow(Contacts.DISPLAY_NAME));
 		return mCursor.getString(mCursor.getColumnIndexOrThrow(Contacts.DISPLAY_NAME));
 	}
 	
@@ -160,5 +166,7 @@ public class Person {
 		SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
 		String sql = mContext.getResources().getString(R.string.delete_person_transactions);
 		db.execSQL(sql, new String[]{Integer.toString(mPersonId)});
+		db.close();
+		Log.i(TAG, "deleted all transactions for " +  mPersonId);
 	}
 }

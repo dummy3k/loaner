@@ -110,6 +110,7 @@ public class overview extends Activity {
 				Log.d(TAG, "PersonId: " + lvit.Person.getId());
 				myIntent.putExtra("id", lvit.Person.getId());
 				overview.this.startActivity(myIntent);
+//				onResume();
 			 }});
 
         lv1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -177,7 +178,7 @@ public class overview extends Activity {
     	super.onResume();
     	Log.d(TAG, "onResume()");
 		DatabaseHelper openHelper = new DatabaseHelper(this);
-		SQLiteDatabase db = openHelper.getWritableDatabase();
+		SQLiteDatabase db = openHelper.getReadableDatabase();
 
 		List<OverviewListItem> itemList = new LinkedList<OverviewListItem>();
 		Cursor cursor = db.query(true, "transactions", new String[] {"person_id"}, 
@@ -195,6 +196,8 @@ public class overview extends Activity {
 		if (cursor != null && !cursor.isClosed()) {
 			cursor.close();
 		}        
+		db.close();
+		Log.d(TAG, "rows: " + itemList.size());
 
 		OverviewListItem[] itemArray = itemList.toArray(new OverviewListItem[]{});
 		if (itemArray.length > 0) {
@@ -230,13 +233,10 @@ public class overview extends Activity {
 					
 					return retVal;
 				}});
-			
-			lv1.setAdapter(new OverviewAdapter(this,
-					R.layout.overviewlistitem, R.id.TextView01, 
-					itemArray));
-
-			db.close();
 		}
+		lv1.setAdapter(new OverviewAdapter(this,
+				R.layout.overviewlistitem, R.id.TextView01, 
+				itemArray));
 
         TextView label = (TextView)findViewById(R.id.txtOverallSaldo);
 		float saldo = Person.getOverallSaldo(this);
