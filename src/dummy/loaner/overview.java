@@ -214,7 +214,7 @@ public class overview extends Activity {
 					retVal = object1.Person.getFirstTransaction().compareTo(object2.Person.getFirstTransaction());
 					break;
 				case LastTransaction:
-					retVal = object1.Person.getLastTransaction().compareTo(object2.Person.getLastTransaction());
+					retVal = -1 * object1.Person.getLastTransaction().compareTo(object2.Person.getLastTransaction());
 					break;
 				default:
 					Log.wtf(TAG, "bad sort key");
