@@ -17,7 +17,7 @@
     <activity android:name="AddTransaction"></activity>
     <activity android:name="ViewPerson"></activity>
 </application>
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="4" />
 
 <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
 </manifest> 

@@ -197,42 +197,46 @@ public class overview extends Activity {
 		}        
 
 		OverviewListItem[] itemArray = itemList.toArray(new OverviewListItem[]{});
-		Arrays.sort(itemArray, new Comparator<OverviewListItem>() {
-			public int compare(OverviewListItem object1,
-					OverviewListItem object2) {
-				
-				int retVal = 0;
-				
-				switch (mSortBy){
-				case Name:
-					retVal = object1.Person.getName().compareTo(object2.Person.getName());
-					break;
-				case Saldo:
-					retVal = Float.compare(object1.Person.getSaldo(), object2.Person.getSaldo());
-					break;
-				case FirstTransaction:
-					retVal = object1.Person.getFirstTransaction().compareTo(object2.Person.getFirstTransaction());
-					break;
-				case LastTransaction:
-					retVal = -1 * object1.Person.getLastTransaction().compareTo(object2.Person.getLastTransaction());
-					break;
-				default:
-					Log.wtf(TAG, "bad sort key");
-					break;
-				}
-				
-				if (mSortRevervse) {
-					retVal *= -1;
-				}
-				
-				return retVal;
-			}});
-		
-		lv1.setAdapter(new OverviewAdapter(this,
-				R.layout.overviewlistitem, R.id.TextView01, 
-				itemArray));
+		if (itemArray.length > 0) {
+			Arrays.sort(itemArray, new Comparator<OverviewListItem>() {
+				public int compare(OverviewListItem object1,
+						OverviewListItem object2) {
+					
+					int retVal = 0;
+					if (object1 == null) Log.w(TAG, "object1 is null");
+					if (object2 == null) Log.w(TAG, "object2 is null");
+					
+					switch (mSortBy){
+					case Name:
+						retVal = object1.Person.getName().compareTo(object2.Person.getName());
+						break;
+					case Saldo:
+						retVal = Float.compare(object1.Person.getSaldo(), object2.Person.getSaldo());
+						break;
+					case FirstTransaction:
+						retVal = object1.Person.getFirstTransaction().compareTo(object2.Person.getFirstTransaction());
+						break;
+					case LastTransaction:
+						retVal = -1 * object1.Person.getLastTransaction().compareTo(object2.Person.getLastTransaction());
+						break;
+					default:
+						Log.e(TAG, "bad sort key");
+						break;
+					}
+					
+					if (mSortRevervse) {
+						retVal *= -1;
+					}
+					
+					return retVal;
+				}});
+			
+			lv1.setAdapter(new OverviewAdapter(this,
+					R.layout.overviewlistitem, R.id.TextView01, 
+					itemArray));
 
-		db.close();
+			db.close();
+		}
 
         TextView label = (TextView)findViewById(R.id.txtOverallSaldo);
 		float saldo = Person.getOverallSaldo(this);
